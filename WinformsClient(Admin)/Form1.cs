@@ -27,8 +27,7 @@ namespace WinformsClient_Admin_
 
         private void objectsButton_Click(object sender, EventArgs e)
         {
-
-            ObjectsWindow objectsWindow = new ObjectsWindow();
+            ObjectsWindow.ObjectsWindow objectsWindow = new ObjectsWindow.ObjectsWindow();
             objectsWindow.ShowDialog(); 
         }
     }

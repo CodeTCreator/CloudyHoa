@@ -64,9 +64,9 @@
             this.deleteButton.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.deleteButton.Appearance.Options.UseFont = true;
             this.deleteButton.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("deleteButton.ImageOptions.Image")));
-            this.deleteButton.Location = new System.Drawing.Point(139, 642);
+            this.deleteButton.Location = new System.Drawing.Point(685, 459);
             this.deleteButton.Name = "deleteButton";
-            this.deleteButton.Size = new System.Drawing.Size(120, 40);
+            this.deleteButton.Size = new System.Drawing.Size(130, 40);
             this.deleteButton.TabIndex = 14;
             this.deleteButton.Text = "Удалить";
             // 
@@ -75,9 +75,9 @@
             this.changeButton.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.changeButton.Appearance.Options.UseFont = true;
             this.changeButton.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("changeButton.ImageOptions.Image")));
-            this.changeButton.Location = new System.Drawing.Point(265, 642);
+            this.changeButton.Location = new System.Drawing.Point(549, 459);
             this.changeButton.Name = "changeButton";
-            this.changeButton.Size = new System.Drawing.Size(120, 40);
+            this.changeButton.Size = new System.Drawing.Size(130, 40);
             this.changeButton.TabIndex = 13;
             this.changeButton.Text = "Изменить";
             // 
@@ -88,19 +88,20 @@
             this.addButton.Appearance.Options.UseBorderColor = true;
             this.addButton.Appearance.Options.UseFont = true;
             this.addButton.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("addButton.ImageOptions.Image")));
-            this.addButton.Location = new System.Drawing.Point(12, 642);
+            this.addButton.Location = new System.Drawing.Point(413, 459);
             this.addButton.Name = "addButton";
-            this.addButton.Size = new System.Drawing.Size(121, 40);
+            this.addButton.Size = new System.Drawing.Size(130, 40);
             this.addButton.TabIndex = 12;
             this.addButton.Text = "Добавить";
             // 
             // gridControl1
             // 
-            this.gridControl1.Location = new System.Drawing.Point(12, 263);
+            this.gridControl1.Location = new System.Drawing.Point(413, 69);
             this.gridControl1.MainView = this.gridView1;
             this.gridControl1.Name = "gridControl1";
             this.gridControl1.Size = new System.Drawing.Size(583, 373);
             this.gridControl1.TabIndex = 16;
+            this.gridControl1.UseEmbeddedNavigator = true;
             this.gridControl1.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView1});
             // 
@@ -113,7 +114,7 @@
             // 
             this.labelControl2.Appearance.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.labelControl2.Appearance.Options.UseFont = true;
-            this.labelControl2.Location = new System.Drawing.Point(3, 62);
+            this.labelControl2.Location = new System.Drawing.Point(3, 81);
             this.labelControl2.Name = "labelControl2";
             this.labelControl2.Size = new System.Drawing.Size(276, 24);
             this.labelControl2.TabIndex = 17;
@@ -134,7 +135,7 @@
             this.stackPanel1.Controls.Add(this.labelControl2);
             this.stackPanel1.Location = new System.Drawing.Point(6, 21);
             this.stackPanel1.Name = "stackPanel1";
-            this.stackPanel1.Size = new System.Drawing.Size(410, 148);
+            this.stackPanel1.Size = new System.Drawing.Size(367, 186);
             this.stackPanel1.TabIndex = 19;
             // 
             // groupBox1
@@ -142,17 +143,18 @@
             this.groupBox1.Controls.Add(this.stackPanel1);
             this.groupBox1.Location = new System.Drawing.Point(12, 71);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(422, 186);
+            this.groupBox1.Size = new System.Drawing.Size(384, 213);
             this.groupBox1.TabIndex = 20;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Общая статистика";
             // 
             // simpleButton1
             // 
+            this.simpleButton1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.simpleButton1.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.simpleButton1.Appearance.Options.UseFont = true;
             this.simpleButton1.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("simpleButton1.ImageOptions.Image")));
-            this.simpleButton1.Location = new System.Drawing.Point(475, 642);
+            this.simpleButton1.Location = new System.Drawing.Point(873, 459);
             this.simpleButton1.Name = "simpleButton1";
             this.simpleButton1.Size = new System.Drawing.Size(120, 40);
             this.simpleButton1.TabIndex = 21;
@@ -162,16 +164,17 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(609, 692);
+            this.ClientSize = new System.Drawing.Size(1005, 511);
             this.Controls.Add(this.simpleButton1);
+            this.Controls.Add(this.gridControl1);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.panelControl1);
             this.Controls.Add(this.addButton);
             this.Controls.Add(this.changeButton);
             this.Controls.Add(this.deleteButton);
-            this.Controls.Add(this.gridControl1);
             this.Name = "ObjectsWindow";
             this.Text = "Объекты";
+            this.Load += new System.EventHandler(this.ObjectsWindow_Load);
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).EndInit();

@@ -88,6 +88,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="DAO\DataObject.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
