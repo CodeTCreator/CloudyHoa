@@ -18,6 +18,6 @@ namespace WcfServiceLibrary
         void EditObject(int id, string objectNumber, int parentId);
 
         [OperationContract]
-        void AddObject(int type_object, string objectNumber, int parentId);
+        int AddObject(int hoa_id,int type_object, string objectNumber, int parentId);
     }
 }

@@ -1,47 +1,63 @@
 ﻿using Devart.Data.PostgreSql;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.ServiceModel;
-using System.Text;
 
 namespace WcfServiceLibrary
 {
     // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "ObjectsService" in both code and config file together.
     public class ObjectsService : IObjectsService
     {
-        static IConfiguration configurationDB = new ConfigurationBuilder().AddJsonFile("AppSettingss.json").Build();
+        static IConfiguration configurationDB = new ConfigurationBuilder().AddJsonFile("AppSettings.json").Build();
 
         readonly string connectionString = configurationDB["AppSettings:DatabaseConnection"];
-        public void AddObject(int typeObject, string objectNumber, int parentId)
+        public int AddObject(int hoaId,int typeObject, string objectNumber, int parentId)
+        {
+            int objectId = -1;
+            using (PgSqlConnection conn = new PgSqlConnection(connectionString))
+            {
+                conn.Open();
+                PgSqlCommand pgSqlCommand = new PgSqlCommand("INSERT INTO objects (hoa_id, type_object, " +
+                    "parent_id, identificator) VALUES (@hoa_id,@type_object,@parent_id,@identificator)", conn);
+                pgSqlCommand.Parameters.Add("@hoa_id", hoaId);
+                pgSqlCommand.Parameters.Add("@type_object", typeObject);
+                pgSqlCommand.Parameters.Add("@parent_id", parentId);
+                pgSqlCommand.Parameters.Add("@identificator", objectNumber);
+                using (PgSqlDataReader reader = pgSqlCommand.ExecuteReader())
+                {
+                    if (reader.HasRows)
+                    {
+                        objectId = reader.GetInt32(1);
+                    }
+                }
+                conn.Close();
+            }
+            return objectId;
+        }
+
+        public void DeleteObject(int objectId)
         {
             using (PgSqlConnection conn = new PgSqlConnection(connectionString))
             {
                 conn.Open();
                 PgSqlCommand pgSqlCommand = new PgSqlCommand("Delete from objects where id = @id_value", conn);
-                pgSqlCommand.Parameters.Add("@id_value", Id);
+                pgSqlCommand.Parameters.Add("@id_value", objectId);
                 pgSqlCommand.ExecuteNonQuery();
                 conn.Close();
             }
         }
 
-        public void DeleteObject(int Id)
+        public void EditObject(int objectId, string objectNumber, int parentId)
         {
             using (PgSqlConnection conn = new PgSqlConnection(connectionString))
             {
                 conn.Open();
-                PgSqlCommand pgSqlCommand = new PgSqlCommand("Delete from objects where id = @id_value", conn);
-                pgSqlCommand.Parameters.Add("@id_value", Id);
+                PgSqlCommand pgSqlCommand = new PgSqlCommand("UPDATE objects SET identificator = @identificator, " +
+                    "parent_id = @parent_id where id = @id", conn);
+                pgSqlCommand.Parameters.Add("@id", objectId);
+                pgSqlCommand.Parameters.Add("@identificator", objectNumber);
+                pgSqlCommand.Parameters.Add("@parent_id", parentId);
                 pgSqlCommand.ExecuteNonQuery();
                 conn.Close();
             }
-        }
-
-        public void EditObject(int Id, string objectNumber, int parentId)
-        {
-            throw new NotImplementedException();
         }
     }
 }
