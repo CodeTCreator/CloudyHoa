@@ -12,6 +12,12 @@ namespace WcfServiceLibrary
     public interface IObjectsService
     {
         [OperationContract]
-        void DoWork();
+        void DeleteObject(int id);
+
+        [OperationContract]
+        void EditObject(int id, string objectNumber, int parentId);
+
+        [OperationContract]
+        void AddObject(int type_object, string objectNumber, int parentId);
     }
 }

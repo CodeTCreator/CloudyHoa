@@ -1,6 +1,8 @@
 ﻿using Devart.Data.PostgreSql;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -12,10 +14,14 @@ namespace WcfServiceLibrary
     // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "ServiceHoaAccount" in both code and config file together.
     public class ServiceHoaAccount : IServiceHoaAccount
     {
-        string ConnectionString = "User Id=postgres;password = admin;Host=localhost;Database=UHoa;Unicode=True;Character Set=UTF8;Initial Schema=public;SSLMode=Disable";
+
+        static IConfiguration configurationDB = new ConfigurationBuilder().AddJsonFile("AppSettingss.json").Build();
+
+        readonly string connectionString = configurationDB["AppSettings:DatabaseConnection"];
+
         public void AddAccount(string Name,string Login, string Password)
         {
-            using (PgSqlConnection conn = new PgSqlConnection(ConnectionString))
+            using (PgSqlConnection conn = new PgSqlConnection(connectionString))
             {
                 conn.Open();
                 PgSqlCommand pgSqlCommand = new PgSqlCommand("INSERT INTO hoa  (Name, login, password) VALUES (@name,@login,@password)"
@@ -31,7 +37,7 @@ namespace WcfServiceLibrary
         public bool CheckAccout(string Name)
         {
             bool flag = true;
-            using (PgSqlConnection conn = new PgSqlConnection(ConnectionString))
+            using (PgSqlConnection conn = new PgSqlConnection(connectionString))
             {
                 conn.Open();
                 PgSqlCommand pgSqlCommand = new PgSqlCommand("Select * from hoa where name = @Name", conn);
@@ -50,7 +56,7 @@ namespace WcfServiceLibrary
 
         public void DeleteAccount(int Id)
         {
-            using (PgSqlConnection conn = new PgSqlConnection(ConnectionString))
+            using (PgSqlConnection conn = new PgSqlConnection(connectionString))
             {
                 conn.Open();
                 PgSqlCommand pgSqlCommand = new PgSqlCommand("Delete from hoa where id = @id_value", conn);
@@ -62,7 +68,7 @@ namespace WcfServiceLibrary
 
         public void EditAccount(int Id, string Name, string Login, string Password)
         {
-            using (PgSqlConnection conn = new PgSqlConnection(ConnectionString))
+            using (PgSqlConnection conn = new PgSqlConnection(connectionString))
             {
                 conn.Open();
                 PgSqlCommand pgSqlCommand = new PgSqlCommand("UPDATE hoa SET name = @name, login = @login," +
@@ -79,7 +85,7 @@ namespace WcfServiceLibrary
         public DataTable GetTableOfHoa()
         {
             DataTable dataTable = new DataTable("Hoa");
-            using (PgSqlConnection conn = new PgSqlConnection(ConnectionString))
+            using (PgSqlConnection conn = new PgSqlConnection(connectionString))
             {
                 conn.Open();
                 PgSqlCommand pgSqlCommand = new PgSqlCommand("select * from hoa", conn);
