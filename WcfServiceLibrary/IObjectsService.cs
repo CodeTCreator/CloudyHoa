@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
@@ -19,5 +20,11 @@ namespace WcfServiceLibrary
 
         [OperationContract]
         int AddObject(int hoa_id,int type_object, string objectNumber, int parentId);
+
+        [OperationContract]
+        DataSet getAllObjects(int hoaId);
+
+        [OperationContract]
+        DataSet getObjectsStructure(int hoa_id);
     }
 }

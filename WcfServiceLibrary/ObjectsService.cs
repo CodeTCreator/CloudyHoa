@@ -1,5 +1,6 @@
 ﻿using Devart.Data.PostgreSql;
 using Microsoft.Extensions.Configuration;
+using System.Data;
 
 namespace WcfServiceLibrary
 {
@@ -58,6 +59,36 @@ namespace WcfServiceLibrary
                 pgSqlCommand.ExecuteNonQuery();
                 conn.Close();
             }
+        }
+
+        public DataSet getAllObjects(int hoaId)
+        {
+            DataSet dataSet = new DataSet();
+            using (PgSqlConnection conn = new PgSqlConnection(connectionString))
+            {
+                conn.Open();
+                PgSqlCommand pgSqlCommand = new PgSqlCommand("select * from objects   where hoa_id = @hoaId", conn);
+                pgSqlCommand.Parameters.Add("@hoaId", hoaId);
+                PgSqlDataAdapter pgSqlDataAdapter = new PgSqlDataAdapter(pgSqlCommand);
+                pgSqlDataAdapter.Fill(dataSet);
+                conn.Close();
+            }
+            return dataSet;
+        }
+
+        public DataSet getObjectsStructure(int hoaId)
+        {
+            DataSet dataSet = new DataSet();
+            using (PgSqlConnection conn = new PgSqlConnection(connectionString))
+            {
+                conn.Open();
+                PgSqlCommand pgSqlCommand = new PgSqlCommand("select * from types_objects where hoa_id = @hoaId", conn);
+                pgSqlCommand.Parameters.Add("@hoaId", hoaId);
+                PgSqlDataAdapter pgSqlDataAdapter = new PgSqlDataAdapter(pgSqlCommand);
+                pgSqlDataAdapter.Fill(dataSet);
+                conn.Close();
+            }
+            return dataSet;
         }
     }
 }

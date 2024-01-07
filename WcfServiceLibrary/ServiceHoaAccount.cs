@@ -83,18 +83,18 @@ namespace WcfServiceLibrary
             }
         }
 
-        public DataTable GetTableOfHoa()
+        public DataSet GetTableOfHoa()
         {
-            DataTable dataTable = new DataTable("Hoa");
+            DataSet dataSet = new DataSet("Hoa");
             using (PgSqlConnection conn = new PgSqlConnection(connectionString))
             {
                 conn.Open();
                 PgSqlCommand pgSqlCommand = new PgSqlCommand("select * from hoa", conn);
                 PgSqlDataAdapter pgSqlDataAdapter = new PgSqlDataAdapter(pgSqlCommand);
-                pgSqlDataAdapter.Fill(dataTable);
+                pgSqlDataAdapter.Fill(dataSet);
                 conn.Close();
             }
-            return dataTable;
+            return dataSet;
         }
     }
 }
