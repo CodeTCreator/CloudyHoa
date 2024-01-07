@@ -37,7 +37,7 @@ namespace WcfServiceLibrary
         public bool CheckAccout(string Name)
         {
             bool flag = true;
-            using (PgSqlConnection conn = new PgSqlConnection(ConnectionString))
+            using (PgSqlConnection conn = new PgSqlConnection(connectionString))
             {
                 conn.Open();
                 PgSqlCommand pgSqlCommand = new PgSqlCommand("Select * from hoa where name = @Name", conn);
@@ -82,18 +82,18 @@ namespace WcfServiceLibrary
             }
         }
 
-        public DataTable GetTableOfHoa()
+        public DataSet GetTableOfHoa()
         {
-            DataTable dataTable = new DataTable("Hoa");
+            DataSet dataSet = new DataSet();
             using (PgSqlConnection conn = new PgSqlConnection(connectionString))
             {
                 conn.Open();
                 PgSqlCommand pgSqlCommand = new PgSqlCommand("select * from hoa", conn);
                 PgSqlDataAdapter pgSqlDataAdapter = new PgSqlDataAdapter(pgSqlCommand);
-                pgSqlDataAdapter.Fill(dataTable);
+                pgSqlDataAdapter.Fill(dataSet);
                 conn.Close();
             }
-            return dataTable;
+            return dataSet;
         }
     }
 }

@@ -16,7 +16,7 @@ namespace WcfServiceLibrary
         bool CheckAccout(string Name);
 
         [OperationContract]
-        DataTable GetTableOfHoa();
+        DataSet GetTableOfHoa();
 
         [OperationContract]
         void AddAccount(string Name,string Login, string Password);
