@@ -141,6 +141,8 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CalculationsService.cs" />
+    <Compile Include="ICalculationsService.cs" />
     <Compile Include="IService1.cs" />
     <Compile Include="IServiceHoaAccount.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
