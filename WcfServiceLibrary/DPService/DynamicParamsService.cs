@@ -1,0 +1,78 @@
+﻿using Devart.Data.PostgreSql;
+using DevExpress.Xpo.DB.Helpers;
+using Microsoft.Extensions.Configuration;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Runtime.Remoting.Metadata.W3cXsd2001;
+using System.Runtime.Serialization;
+using System.ServiceModel;
+using System.Text;
+
+namespace WcfServiceLibrary.DPService
+{
+    // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "DynamicParamsService" in both code and config file together.
+    public class DynamicParamsService : IDynamicParamsService
+    {
+        static IConfiguration configurationDB = new ConfigurationBuilder().AddJsonFile("AppSettings.json").Build();
+
+        readonly string connectionString = configurationDB["AppSettings:DatabaseConnection"];
+
+        public DataSet BoneDynamicParams(int typeObject, int hoaId)
+        {
+            DataSet dataSet = new DataSet();
+            using (PgSqlConnection conn = new PgSqlConnection(connectionString))
+            {
+                conn.Open();
+                PgSqlCommand pgSqlCommand = new PgSqlCommand("select metadata.id, property_name from metadata " +
+                    "where hoa_id = :hoa_id and type_object = :type_object and static = 'false' and calculated = 'false'", conn);
+                pgSqlCommand.Parameters.Add(":hoa_id", hoaId);
+                pgSqlCommand.Parameters.Add(":type_object", typeObject);
+                using (PgSqlDataAdapter pgSqlDataAdapter = new PgSqlDataAdapter(pgSqlCommand))
+                {
+                    pgSqlDataAdapter.Fill(dataSet);
+                }
+                conn.Close();
+            } 
+            return dataSet;
+        }
+       
+
+        public DataSet OldDynamicParams(int hoaId)
+        {
+            DataSet dataSet = new DataSet();
+            using (PgSqlConnection conn = new PgSqlConnection(connectionString))
+            {
+                conn.Open();
+                PgSqlCommand pgSqlCommand = new PgSqlCommand("select distinct on (property_id,object_id) property_id,period, value,object_id " +
+                    "from dynamic_params join metadata on metadata.id = property_id " +
+                    "where hoa_id = :hoa_id order by property_id,object_id,period desc", conn);
+                pgSqlCommand.Parameters.Add(":hoa_id", hoaId);
+                using (PgSqlDataAdapter pgSqlDataAdapter = new PgSqlDataAdapter(pgSqlCommand))
+                {
+                    pgSqlDataAdapter.Fill(dataSet);
+
+                }
+                conn.Close();
+            }
+            return dataSet;
+        }
+
+        public DataSet SchemeDPTable()
+        {
+            DataSet dataSet = new DataSet();
+            using (PgSqlConnection conn = new PgSqlConnection(connectionString))
+            {
+                conn.Open();
+                PgSqlCommand pgSqlCommand = new PgSqlCommand("select * from dynamic_params where 1 = 0", conn);
+                using (PgSqlDataAdapter pgSqlDataAdapter = new PgSqlDataAdapter(pgSqlCommand))
+                {
+                    pgSqlDataAdapter.Fill(dataSet);
+                }
+                conn.Close();
+            }
+            return dataSet;
+        }
+    }
+}

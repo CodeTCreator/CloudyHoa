@@ -15,7 +15,7 @@ namespace WcfServiceLibrary
     public class ServiceHoaAccount : IServiceHoaAccount
     {
 
-        static IConfiguration configurationDB = new ConfigurationBuilder().AddJsonFile("AppSettingss.json").Build();
+        static IConfiguration configurationDB = new Microsoft.Extensions.Configuration.ConfigurationBuilder().AddJsonFile("AppSettings.json").Build();
 
         readonly string connectionString = configurationDB["AppSettings:DatabaseConnection"];
 
@@ -41,7 +41,7 @@ namespace WcfServiceLibrary
             {
                 conn.Open();
                 PgSqlCommand pgSqlCommand = new PgSqlCommand("Select * from hoa where name = @Name", conn);
-                pgSqlCommand.Parameters.Add("@Name",Name );
+                pgSqlCommand.Parameters.Add("@Name", Name);
                 using (PgSqlDataReader reader = pgSqlCommand.ExecuteReader())
                 {
                     if (!reader.HasRows)
