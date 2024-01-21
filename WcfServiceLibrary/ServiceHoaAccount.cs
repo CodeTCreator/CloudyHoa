@@ -15,7 +15,7 @@ namespace WcfServiceLibrary
     public class ServiceHoaAccount : IServiceHoaAccount
     {
 
-        static IConfiguration configurationDB = new ConfigurationBuilder().AddJsonFile("AppSettingss.json").Build();
+        static IConfiguration configurationDB = new ConfigurationBuilder().AddJsonFile("AppSettings.json").Build();
 
         readonly string connectionString = configurationDB["AppSettings:DatabaseConnection"];
 
