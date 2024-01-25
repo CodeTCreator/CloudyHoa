@@ -13,9 +13,9 @@ namespace WcfServiceLibrary
     {
         [OperationContract]
         void addPersonalAccount(string account, int object_id);
-
+        [OperationContract]
         void deletePersonalAccount(int id);
-
+        [OperationContract]
         void editPersonalAccount(int id, string number, int object_id);
 
     }
