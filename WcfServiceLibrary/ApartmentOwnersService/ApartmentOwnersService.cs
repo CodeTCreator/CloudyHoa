@@ -17,12 +17,15 @@ namespace WcfServiceLibrary.ApartmentOwnersService
 
         readonly string connectionString = configurationDB["AppSettings:DatabaseConnection"];
 
+        ClientCredentialsSecurityTokenManager clientCredentialsSecurityTokenManager;
+        
+
         public void addApartmentOwner(string fullName, int objectId, string ownershipShare)
         {
             using (PgSqlConnection conn = new PgSqlConnection(connectionString))
             {
                 conn.Open();
-                PgSqlCommand pgSqlCommand = new PgSqlCommand("INSERT INTO owners  (full_name, object_id, ownersship_share) " +
+                PgSqlCommand pgSqlCommand = new PgSqlCommand("INSERT INTO owners  (full_name, object_id, ownership_share) " +
                     "VALUES (@fullName,@objectId,@ownershipShare)"
                     , conn);
                 pgSqlCommand.Parameters.Add("@fullName", fullName);

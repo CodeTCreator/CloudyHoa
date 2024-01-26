@@ -143,10 +143,8 @@
   <ItemGroup>
     <Compile Include="ApartmentOwnersService\ApartmentOwnersService.cs" />
     <Compile Include="ApartmentOwnersService\IApartmentOwnersService.cs" />
-    <Compile Include="IService1.cs" />
     <Compile Include="ServiceHoaAccount\IServiceHoaAccount.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Service1.cs" />
     <Compile Include="ServiceHoaAccount\ServiceHoaAccount.cs" />
   </ItemGroup>
   <ItemGroup>
