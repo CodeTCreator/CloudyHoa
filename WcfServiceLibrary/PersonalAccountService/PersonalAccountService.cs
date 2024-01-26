@@ -10,7 +10,6 @@ using System.Xml.Linq;
 
 namespace WcfServiceLibrary
 {
-    // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "PersonalAccountService" in both code and config file together.
     public class PersonalAccountService : IPersonalAccountService
     {
 
