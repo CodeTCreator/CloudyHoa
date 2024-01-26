@@ -1,6 +1,5 @@
 ﻿using Devart.Data.PostgreSql;
 using DevExpress.CodeParser;
-using DevExpress.XtraBars.Customization;
 using System;
 using System.Collections.Generic;
 using System.Data;

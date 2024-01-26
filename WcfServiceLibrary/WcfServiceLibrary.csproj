@@ -143,6 +143,7 @@
   <ItemGroup>
     <Compile Include="CalculationClasses\CalculateProperty.cs" />
     <Compile Include="CalculationClasses\DatabaseManager.cs" />
+    <Compile Include="CalculationClasses\DBRequest.cs" />
     <Compile Include="CalculationsService.cs" />
     <Compile Include="ICalculationsService.cs" />
     <Compile Include="IService1.cs" />
