@@ -37,7 +37,31 @@ namespace WcfServiceLibrary.DPService
             } 
             return dataSet;
         }
-       
+
+        public DataSet DynamicParametersTable(int hoaId,int typeObject)
+        {
+            DataSet dataSet = new DataSet();
+            using (PgSqlConnection conn = new PgSqlConnection(connectionString))
+            {
+                conn.Open();
+                PgSqlCommand pgSqlCommand = new PgSqlCommand(
+                    " select " +
+                    "objects.id , objects.hoa_id , objects.type_object," +
+                    "objects.parent_id, objects.identificator, types_objects.name  " +
+                    "from (objects inner join types_objects  on (types_objects.id = objects.type_object)) " +
+                    "where (objects.type_object = :type_object and objects.hoa_id = :hoa_id)", conn);
+                pgSqlCommand.Parameters.Add(":hoa_id", hoaId);
+                pgSqlCommand.Parameters.Add(":type_object", typeObject);
+                using (PgSqlDataAdapter pgSqlDataAdapter = new PgSqlDataAdapter(pgSqlCommand))
+                {
+                    pgSqlDataAdapter.Fill(dataSet);
+                }
+                dataSet.Tables[0].Columns.Add("curr_period", typeof(DateTime));
+                dataSet.Tables[0].Columns.Add("curr_value", typeof(float));
+                conn.Close();
+            }
+            return dataSet;
+        }
 
         public DataSet OldDynamicParams(int hoaId)
         {

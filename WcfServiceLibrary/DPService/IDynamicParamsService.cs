@@ -20,5 +20,9 @@ namespace WcfServiceLibrary.DPService
 
         [OperationContract]
         DataSet BoneDynamicParams(int typeObject, int hoaId);
+
+        // Сделать работу с DataSet, чтобы только отправлять с сервера и отображать
+        [OperationContract]
+        DataSet DynamicParametersTable(int hoaId,int typeObject);
     }
 }
