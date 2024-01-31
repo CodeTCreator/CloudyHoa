@@ -1,4 +1,5 @@
-﻿using Devart.Data.PostgreSql;
+﻿using Devart.Common;
+using Devart.Data.PostgreSql;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
+using System.Xml.Linq;
 
 namespace WcfServiceLibrary
 {
@@ -33,7 +35,6 @@ namespace WcfServiceLibrary
                 conn.Close();
             }
         }
-
         public bool CheckAccout(string Name)
         {
             bool flag = true;
@@ -53,7 +54,6 @@ namespace WcfServiceLibrary
             }
             return flag;
         }
-
         public void DeleteAccount(int Id)
         {
             using (PgSqlConnection conn = new PgSqlConnection(connectionString))
@@ -65,7 +65,6 @@ namespace WcfServiceLibrary
                 conn.Close();
             }
         }
-
         public void EditAccount(int Id, string Name, string Login, string Password)
         {
             using (PgSqlConnection conn = new PgSqlConnection(connectionString))
@@ -81,7 +80,6 @@ namespace WcfServiceLibrary
                 conn.Close();
             }
         }
-
         public DataSet GetTableOfHoa()
         {
             DataSet dataSet = new DataSet();
@@ -89,11 +87,42 @@ namespace WcfServiceLibrary
             {
                 conn.Open();
                 PgSqlCommand pgSqlCommand = new PgSqlCommand("select * from hoa", conn);
-                PgSqlDataAdapter pgSqlDataAdapter = new PgSqlDataAdapter(pgSqlCommand);
-                pgSqlDataAdapter.Fill(dataSet);
+                using (PgSqlDataAdapter pgSqlDataAdapter = new PgSqlDataAdapter(pgSqlCommand))
+                {
+                    pgSqlDataAdapter.Fill(dataSet);
+                }
                 conn.Close();
             }
             return dataSet;
+        }
+        /// <summary>
+        /// Функция проверяет введенные данные. В случае успеха возвращает название УК,в ином случае пустая 
+        /// строка
+        /// </summary>
+        /// <param name="login"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        public string Authorization(string login, string password)
+        {
+            string name = null;
+            using (PgSqlConnection conn = new PgSqlConnection(connectionString))
+            {
+                conn.Open();
+                PgSqlCommand pgSqlCommand = new PgSqlCommand("select name from hoa where login = @login and " +
+                    "password = @password", conn);
+                pgSqlCommand.Parameters.Add("@login", login);
+                pgSqlCommand.Parameters.Add("@password", password);
+                using (PgSqlDataReader pgSqlDataAdapter = pgSqlCommand.ExecuteReader())
+                {
+                    pgSqlDataAdapter.Read();
+                    if (pgSqlDataAdapter.HasRows) 
+                    {
+                        name = pgSqlDataAdapter.GetString(0);
+                    }
+                }
+                conn.Close();
+            }
+            return name;
         }
     }
 }

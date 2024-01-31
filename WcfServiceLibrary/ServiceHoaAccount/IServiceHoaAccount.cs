@@ -26,5 +26,8 @@ namespace WcfServiceLibrary
 
         [OperationContract]
         void EditAccount(int Id, string Name, string Login, string Password);
+
+        [OperationContract]
+        string Authorization(string login, string password);
     }
 }
