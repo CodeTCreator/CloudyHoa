@@ -41,7 +41,7 @@
                             </sp:ProtectionToken>
                             <sp:AlgorithmSuite>
                               <wsp:Policy>
-                                <sp:Basic256 />
+                                <sp:Basic256Sha256Rsa15 />
                               </wsp:Policy>
                             </sp:AlgorithmSuite>
                             <sp:Layout>
@@ -73,7 +73,7 @@
             </sp:ProtectionToken>
             <sp:AlgorithmSuite>
               <wsp:Policy>
-                <sp:Basic256 />
+                <sp:Basic256Sha256Rsa15 />
               </wsp:Policy>
             </sp:AlgorithmSuite>
             <sp:Layout>
@@ -290,11 +290,49 @@
       </wsp:All>
     </wsp:ExactlyOne>
   </wsp:Policy>
+  <wsp:Policy wsu:Id="HoaAdmin_Authorization_Input_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="HoaAdmin_Authorization_output_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
   <wsdl:types>
     <xsd:schema targetNamespace="http://tempuri.org/Imports">
       <xsd:import schemaLocation="https://desktop-nd3ik90:7774/WcfServiceLibrary.ServiceHoaAccount.svc?xsd=xsd0" namespace="http://tempuri.org/" />
       <xsd:import schemaLocation="https://desktop-nd3ik90:7774/WcfServiceLibrary.ServiceHoaAccount.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
-      <xsd:import schemaLocation="https://desktop-nd3ik90:7774/WcfServiceLibrary.ServiceHoaAccount.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/System.Data" />
+      <xsd:import schemaLocation="https://desktop-nd3ik90:7774/WcfServiceLibrary.ServiceHoaAccount.svc?xsd=xsd2" />
     </xsd:schema>
   </wsdl:types>
   <wsdl:message name="IServiceHoaAccount_CheckAccout_InputMessage">
@@ -327,6 +365,12 @@
   <wsdl:message name="IServiceHoaAccount_EditAccount_OutputMessage">
     <wsdl:part name="parameters" element="tns:EditAccountResponse" />
   </wsdl:message>
+  <wsdl:message name="IServiceHoaAccount_Authorization_InputMessage">
+    <wsdl:part name="parameters" element="tns:Authorization" />
+  </wsdl:message>
+  <wsdl:message name="IServiceHoaAccount_Authorization_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AuthorizationResponse" />
+  </wsdl:message>
   <wsdl:portType name="IServiceHoaAccount">
     <wsdl:operation name="CheckAccout">
       <wsdl:input wsaw:Action="http://tempuri.org/IServiceHoaAccount/CheckAccout" message="tns:IServiceHoaAccount_CheckAccout_InputMessage" />
@@ -347,6 +391,10 @@
     <wsdl:operation name="EditAccount">
       <wsdl:input wsaw:Action="http://tempuri.org/IServiceHoaAccount/EditAccount" message="tns:IServiceHoaAccount_EditAccount_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IServiceHoaAccount/EditAccountResponse" message="tns:IServiceHoaAccount_EditAccount_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Authorization">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServiceHoaAccount/Authorization" message="tns:IServiceHoaAccount_Authorization_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IServiceHoaAccount/AuthorizationResponse" message="tns:IServiceHoaAccount_Authorization_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="HoaAdmin" type="tns:IServiceHoaAccount">
@@ -404,6 +452,17 @@
       </wsdl:input>
       <wsdl:output>
         <wsp:PolicyReference URI="#HoaAdmin_EditAccount_output_policy" />
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Authorization">
+      <soap12:operation soapAction="http://tempuri.org/IServiceHoaAccount/Authorization" style="document" />
+      <wsdl:input>
+        <wsp:PolicyReference URI="#HoaAdmin_Authorization_Input_policy" />
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <wsp:PolicyReference URI="#HoaAdmin_Authorization_output_policy" />
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>

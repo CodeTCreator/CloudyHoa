@@ -24,17 +24,11 @@ namespace WinformsClient_Admin_.AddingHoaWindows
 
         private void AddingHoa_Load(object sender, EventArgs e)
         {
-
-            service1Client = new ServiceHoaAccountClient();
-            //service1Client.State
-            UpdateTable();
-        }
-
-        private void UpdateTable()
-        {
             try
             {
-                dataTable = service1Client.GetTableOfHoa();
+                service1Client = new ServiceHoaAccountClient();
+                service1Client.Open();
+                UpdateTable();
             }
             catch (System.ServiceModel.EndpointNotFoundException)
             {
@@ -46,6 +40,13 @@ namespace WinformsClient_Admin_.AddingHoaWindows
                                              MessageBoxIcon.Error);
                 this.Close();
             }
+            //service1Client.State
+           
+        }
+
+        private void UpdateTable()
+        {
+            dataTable = service1Client.GetTableOfHoa().Tables[0];
             gridControl1.DataSource = dataTable;
         }
         private void changeButton_Click(object sender, EventArgs e)

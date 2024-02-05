@@ -22,10 +22,10 @@ namespace WinformsClient_Admin_.ServiceReference {
         System.Threading.Tasks.Task<bool> CheckAccoutAsync(string Name);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServiceHoaAccount/GetTableOfHoa", ReplyAction="http://tempuri.org/IServiceHoaAccount/GetTableOfHoaResponse")]
-        System.Data.DataTable GetTableOfHoa();
+        System.Data.DataSet GetTableOfHoa();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServiceHoaAccount/GetTableOfHoa", ReplyAction="http://tempuri.org/IServiceHoaAccount/GetTableOfHoaResponse")]
-        System.Threading.Tasks.Task<System.Data.DataTable> GetTableOfHoaAsync();
+        System.Threading.Tasks.Task<System.Data.DataSet> GetTableOfHoaAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServiceHoaAccount/AddAccount", ReplyAction="http://tempuri.org/IServiceHoaAccount/AddAccountResponse")]
         void AddAccount(string Name, string Login, string Password);
@@ -44,6 +44,12 @@ namespace WinformsClient_Admin_.ServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServiceHoaAccount/EditAccount", ReplyAction="http://tempuri.org/IServiceHoaAccount/EditAccountResponse")]
         System.Threading.Tasks.Task EditAccountAsync(int Id, string Name, string Login, string Password);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServiceHoaAccount/Authorization", ReplyAction="http://tempuri.org/IServiceHoaAccount/AuthorizationResponse")]
+        string Authorization(string login, string password);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServiceHoaAccount/Authorization", ReplyAction="http://tempuri.org/IServiceHoaAccount/AuthorizationResponse")]
+        System.Threading.Tasks.Task<string> AuthorizationAsync(string login, string password);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -81,11 +87,11 @@ namespace WinformsClient_Admin_.ServiceReference {
             return base.Channel.CheckAccoutAsync(Name);
         }
         
-        public System.Data.DataTable GetTableOfHoa() {
+        public System.Data.DataSet GetTableOfHoa() {
             return base.Channel.GetTableOfHoa();
         }
         
-        public System.Threading.Tasks.Task<System.Data.DataTable> GetTableOfHoaAsync() {
+        public System.Threading.Tasks.Task<System.Data.DataSet> GetTableOfHoaAsync() {
             return base.Channel.GetTableOfHoaAsync();
         }
         
@@ -111,6 +117,14 @@ namespace WinformsClient_Admin_.ServiceReference {
         
         public System.Threading.Tasks.Task EditAccountAsync(int Id, string Name, string Login, string Password) {
             return base.Channel.EditAccountAsync(Id, Name, Login, Password);
+        }
+        
+        public string Authorization(string login, string password) {
+            return base.Channel.Authorization(login, password);
+        }
+        
+        public System.Threading.Tasks.Task<string> AuthorizationAsync(string login, string password) {
+            return base.Channel.AuthorizationAsync(login, password);
         }
     }
 }

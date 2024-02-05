@@ -134,6 +134,7 @@
     <None Include="Connected Services\ServiceReference\WcfServiceLibrary2.xsd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Properties\DataSources\System.Data.DataSet.datasource" />
     <None Include="Properties\DataSources\System.Data.DataTable.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
