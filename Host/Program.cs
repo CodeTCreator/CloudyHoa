@@ -1,4 +1,5 @@
 ﻿using CalculateService;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,9 @@ namespace Host
 {
     internal class Program
     {
+        static IConfiguration configurationDB = new ConfigurationBuilder().AddJsonFile("AppSettings.json").Build();
+
+        readonly string connectionString = configurationDB["AppSettings:DatabaseConnection"];
         static void Main(string[] args)
         {
             Uri baseAddress = new Uri("http://localhost:8733/WcfServiceLibrary/Service1/");

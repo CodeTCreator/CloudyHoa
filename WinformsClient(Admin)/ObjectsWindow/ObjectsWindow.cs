@@ -12,9 +12,15 @@ namespace WinformsClient_Admin_.ObjectsWindow
 {
     public partial class ObjectsWindow : Form
     {
+        DataObject dataObject;
         public ObjectsWindow()
         {
             InitializeComponent();
+        }
+
+        private void ObjectsWindow_Load(object sender, EventArgs e)
+        {
+            dataObject = new DataObject();
         }
     }
 }

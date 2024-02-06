@@ -20,6 +20,7 @@ namespace WcfServiceLibrary
         static IConfiguration configurationDB = new ConfigurationBuilder().AddJsonFile("AppSettings.json").Build();
 
         readonly string connectionString = configurationDB["AppSettings:DatabaseConnection"];
+        //string connectionString = "";
 
         public void AddAccount(string Name,string Login, string Password)
         {
@@ -28,7 +29,7 @@ namespace WcfServiceLibrary
                 conn.Open();
                 PgSqlCommand pgSqlCommand = new PgSqlCommand("INSERT INTO hoa  (Name, login, password) VALUES (@name,@login,@password)"
                     , conn);
-                pgSqlCommand.Parameters.Add("@name",Name);
+                pgSqlCommand.Parameters.Add("@name", Name);
                 pgSqlCommand.Parameters.Add("@login", Login);
                 pgSqlCommand.Parameters.Add("@password", Password);
                 pgSqlCommand.ExecuteNonQuery();
