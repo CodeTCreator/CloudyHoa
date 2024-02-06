@@ -110,11 +110,5 @@
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\WcfServiceLibrary\WcfServiceLibrary.csproj">
-      <Project>{037998df-d6c8-470e-89c6-658be5d06427}</Project>
-      <Name>WcfServiceLibrary</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
