@@ -23,7 +23,7 @@ namespace WcfServiceLibrary
 
         // Получить актуальный параметр (последний по дате обновления)
         [OperationContract]
-        DataSet getCurrentStaticParam(int paramId);
+        DataSet getCurrentStaticParam(int propId);
 
         // Получить все актуальные параметры
         [OperationContract]

@@ -16,7 +16,7 @@ namespace WcfServiceLibrary
     // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "StaticParamsService" in both code and config file together.
     public class StaticParamsService : IStaticParamsService
     {
-        static IConfiguration configurationDB = new ConfigurationBuilder().AddJsonFile("AppSettingss.json").Build();
+        static IConfiguration configurationDB = new ConfigurationBuilder().AddJsonFile("AppSettings.json").Build();
 
         readonly string connectionString = configurationDB["AppSettings:DatabaseConnection"];
         
@@ -78,22 +78,94 @@ namespace WcfServiceLibrary
         
         public DataSet getStaticParam(int paramId)
         {
-            throw new NotImplementedException();
+            DataSet dataSet = new DataSet();
+            using (PgSqlConnection conn = new PgSqlConnection(connectionString))
+            {
+                conn.Open();
+                PgSqlCommand pgSqlCommand = new PgSqlCommand("select * from static_params where id = @paramId", conn);
+                pgSqlCommand.Parameters.Add("@paramId", paramId);
+                PgSqlDataAdapter pgSqlDataAdapter = new PgSqlDataAdapter(pgSqlCommand);
+                pgSqlDataAdapter.Fill(dataSet);
+                conn.Close();
+            }
+            return dataSet;
         }
 
-        public DataSet getCurrentStaticParam(int paramId)
+        public DataSet getCurrentStaticParam(int propId)
         {
-            throw new NotImplementedException();
+            DataSet dataSet = new DataSet();
+            using (PgSqlConnection conn = new PgSqlConnection(connectionString))
+            {
+                conn.Open();
+                PgSqlCommand pgSqlCommand = new PgSqlCommand("SELECT static_params.* FROM static_params " +
+                    "WHERE  (property_id = @propId) " +
+                    "ORDER BY changing_date DESC " +
+                    "Limit 1", conn);
+                pgSqlCommand.Parameters.Add("@propId", propId);
+                PgSqlDataAdapter pgSqlDataAdapter = new PgSqlDataAdapter(pgSqlCommand);
+                pgSqlDataAdapter.Fill(dataSet);
+                conn.Close();
+            }
+            return dataSet;
+        }
+        public DataSet getCurrentStaticParams(int object_id)
+        {
+            DataSet dataSet = new DataSet();
+            using (PgSqlConnection conn = new PgSqlConnection(connectionString))
+            {
+                conn.Open();
+                PgSqlCommand pgSqlCommand = new PgSqlCommand("select static_params.id,object_id,metadata.property_name,changing_date,start_period, " +
+                    "case type_property " +
+                    "when 2 then static_params.string_value " +
+                    "when 1 then static_params.number_value::text " +
+                    "when 3 then static_params.date_value::text " +
+                    "ELSE 'some_default_value' " +
+                    "end " +
+                    "from static_params " +
+                    "join metadata on metadata.id = static_params.property_id " +
+                    "where static_params.id in (SELECT Distinct on (property_id,object_id) id " +
+                    "FROM static_params " +
+                    "where start_period < current_date and  object_id = @objectId " +
+                    "order by property_id,object_id,start_period desc)  or static_params.id in " +
+                    "(SELECT Distinct on (property_id,object_id) id " +
+                    "FROM static_params " +
+                    "where start_period > current_date and  object_id = @objectId " +
+                    "order by property_id,object_id,start_period desc) order by property_id ", conn);
+                pgSqlCommand.Parameters.Add("@objectId", object_id);
+                PgSqlDataAdapter pgSqlDataAdapter = new PgSqlDataAdapter(pgSqlCommand);
+                pgSqlDataAdapter.Fill(dataSet);
+                conn.Close();
+            }
+            return dataSet;
         }
 
-        public DataSet getCurrentStaticParams(int objectId)
+        public DataSet getOldStaticParams(int object_id)
         {
-            throw new NotImplementedException();
-        }
-
-        public DataSet getOldStaticParams(int objectId)
-        {
-            throw new NotImplementedException();
+            DataSet dataSet = new DataSet();
+            using (PgSqlConnection conn = new PgSqlConnection(connectionString))
+            {
+                conn.Open();
+                PgSqlCommand pgSqlCommand = new PgSqlCommand("select static_params.id,object_id,metadata.property_name,changing_date,start_period, " +
+                    "case type_property " +
+                    "when 2 then static_params.string_value " +
+                    "when 1 then static_params.number_value::text " +
+                    "when 3 then static_params.date_value::text " +
+                    "ELSE 'some_default_value' " +
+                    "end " +
+                    "from static_params " +
+                    "join metadata on metadata.id = static_params.property_id " +
+                    "where (static_params.id not in (SELECT Distinct on (property_id,object_id) id " +
+                    "FROM static_params " +
+                    "where start_period < current_date and  object_id = @objectId " +
+                    "order by property_id,object_id,start_period desc) " +
+                    ") and  object_id = 56 and start_period < current_date " +
+                    "order by property_id ", conn);
+                pgSqlCommand.Parameters.Add("@objectId", object_id);
+                PgSqlDataAdapter pgSqlDataAdapter = new PgSqlDataAdapter(pgSqlCommand);
+                pgSqlDataAdapter.Fill(dataSet);
+                conn.Close();
+            }
+            return dataSet;
         }
     }
 }

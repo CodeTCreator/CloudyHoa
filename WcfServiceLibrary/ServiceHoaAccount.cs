@@ -37,7 +37,7 @@ namespace WcfServiceLibrary
         public bool CheckAccout(string Name)
         {
             bool flag = true;
-            using (PgSqlConnection conn = new PgSqlConnection(ConnectionString))
+            using (PgSqlConnection conn = new PgSqlConnection(connectionString))
             {
                 conn.Open();
                 PgSqlCommand pgSqlCommand = new PgSqlCommand("Select * from hoa where name = @Name", conn);
