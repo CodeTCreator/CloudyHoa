@@ -97,19 +97,19 @@ namespace WcfServiceLibrary
             return dataSet;
         }
         /// <summary>
-        /// Функция проверяет введенные данные. В случае успеха возвращает название УК,в ином случае пустая 
+        /// Функция проверяет введенные данные. В случае успеха возвращает id УК,в ином случае пустая 
         /// строка
         /// </summary>
         /// <param name="login"></param>
         /// <param name="password"></param>
         /// <returns></returns>
-        public string Authorization(string login, string password)
+        public int Authorization(string login, string password)
         {
-            string name = null;
+            int hoaId = -1;
             using (PgSqlConnection conn = new PgSqlConnection(connectionString))
             {
                 conn.Open();
-                PgSqlCommand pgSqlCommand = new PgSqlCommand("select name from hoa where login = @login and " +
+                PgSqlCommand pgSqlCommand = new PgSqlCommand("select id from hoa where login = @login and " +
                     "password = @password", conn);
                 pgSqlCommand.Parameters.Add("@login", login);
                 pgSqlCommand.Parameters.Add("@password", password);
@@ -117,6 +117,27 @@ namespace WcfServiceLibrary
                 {
                     pgSqlDataAdapter.Read();
                     if (pgSqlDataAdapter.HasRows) 
+                    {
+                        hoaId = pgSqlDataAdapter.GetInt32(0);
+                    }
+                }
+                conn.Close();
+            }
+            return hoaId;
+        }
+
+        public string GetAccountName(int hoaId)
+        {
+            string name = null;
+            using (PgSqlConnection conn = new PgSqlConnection(connectionString))
+            {
+                conn.Open();
+                PgSqlCommand pgSqlCommand = new PgSqlCommand("select name from hoa where id = @hoaId ", conn);
+                pgSqlCommand.Parameters.Add("@hoaId", hoaId);
+                using (PgSqlDataReader pgSqlDataAdapter = pgSqlCommand.ExecuteReader())
+                {
+                    pgSqlDataAdapter.Read();
+                    if (pgSqlDataAdapter.HasRows)
                     {
                         name = pgSqlDataAdapter.GetString(0);
                     }

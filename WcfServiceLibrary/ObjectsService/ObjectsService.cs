@@ -67,7 +67,10 @@ namespace WcfServiceLibrary
             using (PgSqlConnection conn = new PgSqlConnection(connectionString))
             {
                 conn.Open();
-                PgSqlCommand pgSqlCommand = new PgSqlCommand("select * from objects   where hoa_id = @hoaId", conn);
+                PgSqlCommand pgSqlCommand = new PgSqlCommand("select parent_id, objects.id,types_objects.name, types_objects.id,identificator" +
+                    "  from (types_objects inner join objects " +
+                    "on (objects.type_object = types_objects.id))  " +
+                    "where objects.hoa_id = @hoaId order by identificator ", conn);
                 pgSqlCommand.Parameters.Add("@hoaId", hoaId);
                 PgSqlDataAdapter pgSqlDataAdapter = new PgSqlDataAdapter(pgSqlCommand);
                 pgSqlDataAdapter.Fill(dataSet);
