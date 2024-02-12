@@ -79,6 +79,26 @@ namespace WcfServiceLibrary
             return dataSet;
         }
 
+        public DataSet GetObjectsParents(int hoaId, int typeObject)
+        {
+            DataSet dataSet = new DataSet();
+            using (PgSqlConnection conn = new PgSqlConnection(connectionString))
+            {
+                conn.Open();
+                PgSqlCommand pgSqlCommand = new PgSqlCommand("select types_objects.id,types_objects.name || ' ' || identificator as name, objects.id " +
+                    "from types_objects " +
+                    "join objects on objects.type_object = types_objects.id  " +
+                    "where types_objects.hoa_id = @hoaId and types_objects.id = " +
+                    "(select parent_type from types_objects where id = @parent_type and hoa_id = @hoaId)", conn);
+                pgSqlCommand.Parameters.Add("@hoaId", hoaId);
+                pgSqlCommand.Parameters.Add("@parent_type", typeObject);
+                PgSqlDataAdapter pgSqlDataAdapter = new PgSqlDataAdapter(pgSqlCommand);
+                pgSqlDataAdapter.Fill(dataSet);
+                conn.Close();
+            }
+            return dataSet;
+        }
+
         public DataSet getObjectsStructure(int hoaId)
         {
             DataSet dataSet = new DataSet();

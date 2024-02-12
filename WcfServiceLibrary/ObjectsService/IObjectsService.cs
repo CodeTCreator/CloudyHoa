@@ -19,12 +19,15 @@ namespace WcfServiceLibrary
         void EditObject(int id, string objectNumber, int parentId);
 
         [OperationContract]
-        int AddObject(int hoa_id,int type_object, string objectNumber, int parentId);
+        int AddObject(int hoa_id, int type_object, string objectNumber, int parentId);
 
         [OperationContract]
         DataSet getAllObjects(int hoaId);
 
         [OperationContract]
         DataSet getObjectsStructure(int hoa_id);
+
+        [OperationContract]
+        DataSet GetObjectsParents(int hoa_id, int type_object);
     }
 }
