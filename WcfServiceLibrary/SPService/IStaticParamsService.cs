@@ -32,5 +32,9 @@ namespace WcfServiceLibrary
         // Получить старые параметры
         [OperationContract]
         DataSet getOldStaticParams(int objectId);
+
+        [OperationContract]
+        DataSet GetSchemeStaticParams(int hoaId, int typeObject);
+
     }
 }

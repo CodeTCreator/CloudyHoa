@@ -167,5 +167,21 @@ namespace WcfServiceLibrary
             }
             return dataSet;
         }
+
+        public DataSet GetSchemeStaticParams(int hoaId, int typeObject)
+        {
+            DataSet dataSet = new DataSet();
+            using (PgSqlConnection conn = new PgSqlConnection(connectionString))
+            {
+                conn.Open();
+                PgSqlCommand pgSqlCommand = new PgSqlCommand("select * from metadata where type_object = @typeObject and static = true and hoa_id = @hoaId " , conn);
+                pgSqlCommand.Parameters.Add("@typeObject", typeObject);
+                pgSqlCommand.Parameters.Add("@hoaId", hoaId);
+                PgSqlDataAdapter pgSqlDataAdapter = new PgSqlDataAdapter(pgSqlCommand);
+                pgSqlDataAdapter.Fill(dataSet);
+                conn.Close();
+            }
+            return dataSet;
+        }
     }
 }
