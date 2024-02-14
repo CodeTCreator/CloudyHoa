@@ -22,10 +22,10 @@ namespace WcfServiceLibrary
         int AddObject(int hoa_id, int type_object, string objectNumber, int parentId);
 
         [OperationContract]
-        DataSet getAllObjects(int hoaId);
+        DataSet GetAllObjects(int hoaId);
 
         [OperationContract]
-        DataSet getObjectsStructure(int hoa_id);
+        DataSet GetObjectsStructure(int hoa_id);
 
         [OperationContract]
         DataSet GetObjectsParents(int hoa_id, int type_object);
