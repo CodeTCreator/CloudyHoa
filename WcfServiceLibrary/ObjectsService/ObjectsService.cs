@@ -17,16 +17,17 @@ namespace WcfServiceLibrary
             {
                 conn.Open();
                 PgSqlCommand pgSqlCommand = new PgSqlCommand("INSERT INTO objects (hoa_id, type_object, " +
-                    "parent_id, identificator) VALUES (@hoa_id,@type_object,@parent_id,@identificator)", conn);
+                    "parent_id, identificator) VALUES (@hoa_id,@type_object,@parent_id,@identificator) returning id", conn);
                 pgSqlCommand.Parameters.Add("@hoa_id", hoaId);
                 pgSqlCommand.Parameters.Add("@type_object", typeObject);
                 pgSqlCommand.Parameters.Add("@parent_id", parentId);
                 pgSqlCommand.Parameters.Add("@identificator", objectNumber);
                 using (PgSqlDataReader reader = pgSqlCommand.ExecuteReader())
                 {
+                    reader.Read();
                     if (reader.HasRows)
                     {
-                        objectId = reader.GetInt32(1);
+                        objectId = reader.GetInt32(0);
                     }
                 }
                 conn.Close();
