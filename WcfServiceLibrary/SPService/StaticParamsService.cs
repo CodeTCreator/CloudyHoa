@@ -20,8 +20,10 @@ namespace WcfServiceLibrary
 
         readonly string connectionString = configurationDB["AppSettings:DatabaseConnection"];
         
-        public void addStaticParam(string value, int typeParams, int propertyId, DateTime startPeriod, DateTime changingDate, int objectId)
+        public void AddStaticParam(string value, int typeParams, int propertyId, int objectId)
         {
+            DateTime startPeriod = DateTime.Now;
+            DateTime changingDate = DateTime.Now;
             using (PgSqlConnection conn = new PgSqlConnection(connectionString))
             {
                 conn.Open();
@@ -63,7 +65,7 @@ namespace WcfServiceLibrary
             }
         }
 
-        public void deleteStaticParam(int paramId)
+        public void DeleteStaticParam(int paramId)
         {
             using (PgSqlConnection conn = new PgSqlConnection(connectionString))
             {
@@ -76,7 +78,7 @@ namespace WcfServiceLibrary
             }
         }
         
-        public DataSet getStaticParam(int paramId)
+        public DataSet GetStaticParam(int paramId)
         {
             DataSet dataSet = new DataSet();
             using (PgSqlConnection conn = new PgSqlConnection(connectionString))
@@ -91,7 +93,7 @@ namespace WcfServiceLibrary
             return dataSet;
         }
 
-        public DataSet getCurrentStaticParam(int propId)
+        public DataSet GetCurrentStaticParam(int propId)
         {
             DataSet dataSet = new DataSet();
             using (PgSqlConnection conn = new PgSqlConnection(connectionString))
@@ -108,7 +110,7 @@ namespace WcfServiceLibrary
             }
             return dataSet;
         }
-        public DataSet getCurrentStaticParams(int object_id)
+        public DataSet GetCurrentStaticParams(int object_id)
         {
             DataSet dataSet = new DataSet();
             using (PgSqlConnection conn = new PgSqlConnection(connectionString))
@@ -139,7 +141,7 @@ namespace WcfServiceLibrary
             return dataSet;
         }
 
-        public DataSet getOldStaticParams(int object_id)
+        public DataSet GetOldStaticParams(int object_id)
         {
             DataSet dataSet = new DataSet();
             using (PgSqlConnection conn = new PgSqlConnection(connectionString))
@@ -174,7 +176,11 @@ namespace WcfServiceLibrary
             using (PgSqlConnection conn = new PgSqlConnection(connectionString))
             {
                 conn.Open();
-                PgSqlCommand pgSqlCommand = new PgSqlCommand("select * from metadata where type_object = @typeObject and static = true and hoa_id = @hoaId " , conn);
+                PgSqlCommand pgSqlCommand = new PgSqlCommand("SELECT types_prop.name, metadata.type_object, metadata.id, metadata.formula, metadata.system_name, " +
+                    "metadata.property_name, metadata.type_property, metadata.type_parent, metadata.hoa_id " +
+                    "FROM metadata " +
+                    "JOIN types_prop ON metadata.type_property = types_prop.id " +
+                    "where hoa_id = @hoaId and type_object = @typeObject and static = true", conn);
                 pgSqlCommand.Parameters.Add("@typeObject", typeObject);
                 pgSqlCommand.Parameters.Add("@hoaId", hoaId);
                 PgSqlDataAdapter pgSqlDataAdapter = new PgSqlDataAdapter(pgSqlCommand);

@@ -13,25 +13,25 @@ namespace WcfServiceLibrary
     public interface IStaticParamsService
     {
         [OperationContract]
-        void addStaticParam(string value, int typeParams, int propertyId, DateTime startPeriod, DateTime changingDate, int objectId);
+        void AddStaticParam(string value, int typeParams, int propertyId, int objectId);
 
         [OperationContract]
-        void deleteStaticParam(int paramId);
+        void DeleteStaticParam(int paramId);
 
         [OperationContract]
-        DataSet getStaticParam(int paramId);
+        DataSet GetStaticParam(int paramId);
 
         // Получить актуальный параметр (последний по дате обновления)
         [OperationContract]
-        DataSet getCurrentStaticParam(int propId);
+        DataSet GetCurrentStaticParam(int propId);
 
         // Получить все актуальные параметры
         [OperationContract]
-        DataSet getCurrentStaticParams(int objectId);
+        DataSet GetCurrentStaticParams(int objectId);
 
         // Получить старые параметры
         [OperationContract]
-        DataSet getOldStaticParams(int objectId);
+        DataSet GetOldStaticParams(int objectId);
 
         [OperationContract]
         DataSet GetSchemeStaticParams(int hoaId, int typeObject);
