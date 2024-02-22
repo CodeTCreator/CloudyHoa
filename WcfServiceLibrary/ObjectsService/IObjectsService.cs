@@ -16,10 +16,10 @@ namespace WcfServiceLibrary
         void DeleteObject(int id);
 
         [OperationContract]
-        void EditObject(int id, string objectNumber, int parentId);
+        void EditObject(int id, string objectNumber, int? parentId);
 
         [OperationContract]
-        int AddObject(int hoa_id, int type_object, string objectNumber, int parentId);
+        int AddObject(int hoa_id, int type_object, string objectNumber, int? parentId);
 
         [OperationContract]
         DataSet GetAllObjects(int hoaId);

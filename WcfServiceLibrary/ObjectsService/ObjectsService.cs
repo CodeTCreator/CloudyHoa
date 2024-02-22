@@ -10,7 +10,7 @@ namespace WcfServiceLibrary
         static IConfiguration configurationDB = new ConfigurationBuilder().AddJsonFile("AppSettings.json").Build();
 
         readonly string connectionString = configurationDB["AppSettings:DatabaseConnection"];
-        public int AddObject(int hoaId,int typeObject, string objectNumber, int parentId)
+        public int AddObject(int hoaId,int typeObject, string objectNumber, int? parentId)
         {
             int objectId = -1;
             using (PgSqlConnection conn = new PgSqlConnection(connectionString))
@@ -47,7 +47,7 @@ namespace WcfServiceLibrary
             }
         }
 
-        public void EditObject(int objectId, string objectNumber, int parentId)
+        public void EditObject(int objectId, string objectNumber, int? parentId)
         {
             using (PgSqlConnection conn = new PgSqlConnection(connectionString))
             {
