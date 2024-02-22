@@ -116,7 +116,8 @@ namespace WcfServiceLibrary
             using (PgSqlConnection conn = new PgSqlConnection(connectionString))
             {
                 conn.Open();
-                PgSqlCommand pgSqlCommand = new PgSqlCommand("select static_params.id,object_id,metadata.property_name,changing_date,start_period, " +
+                PgSqlCommand pgSqlCommand = new PgSqlCommand("select static_params.id,object_id,metadata.property_name,changing_date," +
+                    "start_period,types_prop.name, " +
                     "case type_property " +
                     "when 2 then static_params.string_value " +
                     "when 1 then static_params.number_value::text " +
@@ -125,6 +126,7 @@ namespace WcfServiceLibrary
                     "end " +
                     "from static_params " +
                     "join metadata on metadata.id = static_params.property_id " +
+                    "join types_prop ON metadata.type_property = types_prop.id " +
                     "where static_params.id in (SELECT Distinct on (property_id,object_id) id " +
                     "FROM static_params " +
                     "where start_period < current_date and  object_id = @objectId " +
