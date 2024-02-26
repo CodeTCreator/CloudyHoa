@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Host", "Host\Host.csproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsFormsApp", "WindowsFormsApp\WindowsFormsApp.csproj", "{291BD681-F08F-448E-AEA2-CFB513D4DFAE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinformsClient(Admin)", "WinformsClient(Admin)\WinformsClient(Admin).csproj", "{0D0B8240-0DCB-4614-AB7E-6EB5C03F36DF}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,10 +27,6 @@ Global
 		{291BD681-F08F-448E-AEA2-CFB513D4DFAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{291BD681-F08F-448E-AEA2-CFB513D4DFAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{291BD681-F08F-448E-AEA2-CFB513D4DFAE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0D0B8240-0DCB-4614-AB7E-6EB5C03F36DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0D0B8240-0DCB-4614-AB7E-6EB5C03F36DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0D0B8240-0DCB-4614-AB7E-6EB5C03F36DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0D0B8240-0DCB-4614-AB7E-6EB5C03F36DF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
