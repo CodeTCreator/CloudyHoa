@@ -17,9 +17,6 @@ namespace WcfServiceLibrary.ApartmentOwnersService
 
         readonly string connectionString = configurationDB["AppSettings:DatabaseConnection"];
 
-        ClientCredentialsSecurityTokenManager clientCredentialsSecurityTokenManager;
-        
-
         public void addApartmentOwner(string fullName, int objectId, string ownershipShare)
         {
             using (PgSqlConnection conn = new PgSqlConnection(connectionString))
