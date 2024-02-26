@@ -35,13 +35,13 @@ namespace WcfServiceLibrary
                 switch (typeParams)
                 {
                     case 1:
-                        pgSqlCommand.Parameters.Add("@stringValue", value);
-                        pgSqlCommand.Parameters.Add("@numberValue", null);
+                        pgSqlCommand.Parameters.Add("@stringValue", null);
+                        pgSqlCommand.Parameters.Add("@numberValue", value);
                         pgSqlCommand.Parameters.Add("@dateValue", null);
                         break;
                     case 2:
-                        pgSqlCommand.Parameters.Add("@stringValue", null);
-                        pgSqlCommand.Parameters.Add("@numberValue", value);
+                        pgSqlCommand.Parameters.Add("@stringValue", value);
+                        pgSqlCommand.Parameters.Add("@numberValue", null);
                         pgSqlCommand.Parameters.Add("@dateValue", null);
                         break;
                     case 3:
@@ -117,7 +117,7 @@ namespace WcfServiceLibrary
             {
                 conn.Open();
                 PgSqlCommand pgSqlCommand = new PgSqlCommand("select static_params.id,object_id,metadata.property_name,changing_date," +
-                    "start_period,types_prop.name, " +
+                    "start_period,types_prop.name, metadata.type_property,metadata.id as prop_id, " +
                     "case type_property " +
                     "when 2 then static_params.string_value " +
                     "when 1 then static_params.number_value::text " +
@@ -129,12 +129,8 @@ namespace WcfServiceLibrary
                     "join types_prop ON metadata.type_property = types_prop.id " +
                     "where static_params.id in (SELECT Distinct on (property_id,object_id) id " +
                     "FROM static_params " +
-                    "where start_period < current_date and  object_id = @objectId " +
-                    "order by property_id,object_id,start_period desc)  or static_params.id in " +
-                    "(SELECT Distinct on (property_id,object_id) id " +
-                    "FROM static_params " +
-                    "where start_period > current_date and  object_id = @objectId " +
-                    "order by property_id,object_id,start_period desc) order by property_id ", conn);
+                    "where start_period <= current_date and  object_id = @objectId " +
+                    "order by property_id,object_id,changing_date desc,id desc) ", conn);
                 pgSqlCommand.Parameters.Add("@objectId", object_id);
                 PgSqlDataAdapter pgSqlDataAdapter = new PgSqlDataAdapter(pgSqlCommand);
                 pgSqlDataAdapter.Fill(dataSet);
@@ -160,9 +156,9 @@ namespace WcfServiceLibrary
                     "join metadata on metadata.id = static_params.property_id " +
                     "where (static_params.id not in (SELECT Distinct on (property_id,object_id) id " +
                     "FROM static_params " +
-                    "where start_period < current_date and  object_id = @objectId " +
-                    "order by property_id,object_id,start_period desc) " +
-                    ") and  object_id = 56 and start_period < current_date " +
+                    "where start_period <= current_date and  object_id = @objectId " +
+                    "order by property_id,object_id,changing_date desc,id desc) " +
+                    ") and  object_id = @objectId and start_period <= current_date " +
                     "order by property_id ", conn);
                 pgSqlCommand.Parameters.Add("@objectId", object_id);
                 PgSqlDataAdapter pgSqlDataAdapter = new PgSqlDataAdapter(pgSqlCommand);
