@@ -126,14 +126,13 @@ namespace WcfServiceLibrary.MetadataService
             return dataSet;
         }
 
-        public DataSet GetTypesObjects(int hoaId)
+        public DataSet GetTypesObjects()
         {
             DataSet dataSet = new DataSet();
             using (PgSqlConnection conn = new PgSqlConnection(connectionString))
             {
                 conn.Open();
-                PgSqlCommand pgSqlCommand = new PgSqlCommand("select * from types_objects where hoa_id = @hoaId", conn);
-                pgSqlCommand.Parameters.Add("@hoaId", hoaId);
+                PgSqlCommand pgSqlCommand = new PgSqlCommand("select * from types_objects", conn);
                 PgSqlDataAdapter pgSqlDataAdapter = new PgSqlDataAdapter(pgSqlCommand);
                 pgSqlDataAdapter.Fill(dataSet);
                 conn.Close();

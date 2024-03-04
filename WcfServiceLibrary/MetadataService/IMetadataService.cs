@@ -29,7 +29,7 @@ namespace WcfServiceLibrary.MetadataService
         void DeleteTypeObject(int typeId);
 
         [OperationContract]
-        DataSet GetTypesObjects(int hoaId);
+        DataSet GetTypesObjects();
 
         [OperationContract]
         DataSet GetParameters(int typeObject);
