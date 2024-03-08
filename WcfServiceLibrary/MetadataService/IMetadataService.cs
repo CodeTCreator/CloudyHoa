@@ -20,19 +20,25 @@ namespace WcfServiceLibrary.MetadataService
 
         // Добавление и удаление типа объекта
         [OperationContract]
-        void AddTypeObject(string nameType, int parentType, int hoaId);
+        void AddTypeObject(string nameType, int? parentType, int hoaId);
 
         [OperationContract]
-        void EditTypeObject(int typeId, string nameType, int parentType);
+        void EditTypeObject(int typeId, string nameType, int? parentType);
 
         [OperationContract]
         void DeleteTypeObject(int typeId);
 
         [OperationContract]
-        DataSet GetTypesObjects();
+        DataSet GetAllTypesObjects();
+
+        [OperationContract]
+        DataSet GetTypesObjects(int hoaId);
 
         [OperationContract]
         DataSet GetParameters(int typeObject);
+
+        [OperationContract]
+        DataSet GetTypesParameters();
 
     }
 }

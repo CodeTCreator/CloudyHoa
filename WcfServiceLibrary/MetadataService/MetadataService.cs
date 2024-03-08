@@ -38,7 +38,7 @@ namespace WcfServiceLibrary.MetadataService
             }
         }
 
-        public void AddTypeObject(string nameType, int parentType, int hoaId)
+        public void AddTypeObject(string nameType, int? parentType, int hoaId)
         {
             using (PgSqlConnection conn = new PgSqlConnection(connectionString))
             {
@@ -95,8 +95,7 @@ namespace WcfServiceLibrary.MetadataService
                 conn.Close();
             }
         }
-
-        public void EditTypeObject(int typeId, string nameType, int parentType)
+        public void EditTypeObject(int typeId, string nameType, int? parentType)
         {
             using (PgSqlConnection conn = new PgSqlConnection(connectionString))
             {
@@ -110,7 +109,6 @@ namespace WcfServiceLibrary.MetadataService
                 conn.Close();
             }
         }
-
         public DataSet GetParameters(int typeObject)
         {
             DataSet dataSet = new DataSet();
@@ -125,14 +123,45 @@ namespace WcfServiceLibrary.MetadataService
             }
             return dataSet;
         }
-
-        public DataSet GetTypesObjects()
+        public DataSet GetAllTypesObjects()
         {
             DataSet dataSet = new DataSet();
             using (PgSqlConnection conn = new PgSqlConnection(connectionString))
             {
                 conn.Open();
-                PgSqlCommand pgSqlCommand = new PgSqlCommand("select * from types_objects", conn);
+                PgSqlCommand pgSqlCommand = new PgSqlCommand("SELECT types_objects.*, hoa.\"name\" AS hoa_name " +
+                    "FROM types_objects " +
+                    "INNER JOIN  hoa ON types_objects.hoa_id = hoa.id", conn);
+                PgSqlDataAdapter pgSqlDataAdapter = new PgSqlDataAdapter(pgSqlCommand);
+                pgSqlDataAdapter.Fill(dataSet);
+                conn.Close();
+            }
+            return dataSet;
+        }
+        public DataSet GetTypesObjects(int hoaId)
+        {
+            DataSet dataSet = new DataSet();
+            using (PgSqlConnection conn = new PgSqlConnection(connectionString))
+            {
+                conn.Open();
+                PgSqlCommand pgSqlCommand = new PgSqlCommand("SELECT types_objects.*, hoa.\"name\" AS hoa_name " +
+                    "FROM types_objects " +
+                    "INNER JOIN  hoa ON types_objects.hoa_id = hoa.id where hoa.id = @hoaId", conn);
+                pgSqlCommand.Parameters.Add("@hoaId", hoaId);
+                PgSqlDataAdapter pgSqlDataAdapter = new PgSqlDataAdapter(pgSqlCommand);
+                pgSqlDataAdapter.Fill(dataSet);
+                conn.Close();
+            }
+            return dataSet;
+        }
+
+        public DataSet GetTypesParameters()
+        {
+            DataSet dataSet = new DataSet();
+            using (PgSqlConnection conn = new PgSqlConnection(connectionString))
+            {
+                conn.Open();
+                PgSqlCommand pgSqlCommand = new PgSqlCommand("SELECT * from types_prop ", conn);
                 PgSqlDataAdapter pgSqlDataAdapter = new PgSqlDataAdapter(pgSqlCommand);
                 pgSqlDataAdapter.Fill(dataSet);
                 conn.Close();
