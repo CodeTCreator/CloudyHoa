@@ -27,12 +27,12 @@ namespace WcfServiceLibrary.MetadataService
                     " VALUES (@hoa_id,@type_object,@property_name,@type_property,@system_name,@formula,@static,@calculated)", conn);
                 pgSqlCommand.Parameters.Add("@hoa_id", hoaId);
                 pgSqlCommand.Parameters.Add("@type_object", typeObject);
-                pgSqlCommand.Parameters.Add("@property_name", typeObject);
-                pgSqlCommand.Parameters.Add("@type_property", typeObject);
-                pgSqlCommand.Parameters.Add("@system_name", typeObject);
-                pgSqlCommand.Parameters.Add("@formula", typeObject);
-                pgSqlCommand.Parameters.Add("@static", typeObject);
-                pgSqlCommand.Parameters.Add("@calculated", typeObject);
+                pgSqlCommand.Parameters.Add("@property_name", propertyName);
+                pgSqlCommand.Parameters.Add("@type_property", typeProperty);
+                pgSqlCommand.Parameters.Add("@system_name", systemName);
+                pgSqlCommand.Parameters.Add("@formula", formula);
+                pgSqlCommand.Parameters.Add("@static", staticParam);
+                pgSqlCommand.Parameters.Add("@calculated", calculated);
                 pgSqlCommand.ExecuteNonQuery();
                 conn.Close();
             }
