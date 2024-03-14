@@ -149,6 +149,8 @@
     <Compile Include="ServiceHoaAccount\ServiceHoaAccount.cs" />
     <Compile Include="SPService\IStaticParamsService.cs" />
     <Compile Include="SPService\StaticParamsService.cs" />
+    <Compile Include="TariffService\ITariffService.cs" />
+    <Compile Include="TariffService\TariffService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
