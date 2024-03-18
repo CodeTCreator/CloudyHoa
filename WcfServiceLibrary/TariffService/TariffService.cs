@@ -62,16 +62,36 @@ namespace WcfServiceLibrary.TariffService
             }
         }
 
-        public DataSet GetTariffs(int hoaId)
+        public DataSet GetServices(int hoaId, int type_object)
         {
             DataSet dataSet = new DataSet();
             using (PgSqlConnection conn = new PgSqlConnection(connectionString))
             {
                 conn.Open();
-                PgSqlCommand pgSqlCommand = new PgSqlCommand("SELECT types_tariffs.* FROM types_tariffs " +
-                    "join metadata on metadata_id = metadata.id " +
-                    "where hoa_id = @hoaId", conn);
+                PgSqlCommand pgSqlCommand = new PgSqlCommand("select * from metadata " +
+                    "where hoa_id = @hoa_id and type_object = @type_object and static = false and calculated = true", conn);
+                pgSqlCommand.Parameters.Add("@hoa_id", hoaId);
+                pgSqlCommand.Parameters.Add("@type_object", type_object);
+                PgSqlDataAdapter pgSqlDataAdapter = new PgSqlDataAdapter(pgSqlCommand);
+                pgSqlDataAdapter.Fill(dataSet);
+                conn.Close();
+            }
+            return dataSet;
+        }
+
+        public DataSet GetTariffs(int hoaId, int? type_object)
+        {
+            DataSet dataSet = new DataSet();
+            using (PgSqlConnection conn = new PgSqlConnection(connectionString))
+            {
+                conn.Open();
+                PgSqlCommand pgSqlCommand = new PgSqlCommand("SELECT types_tariffs.*, metadata.property_name " +
+                    "FROM types_tariffs " +
+                    "JOIN metadata ON types_tariffs.metadata_id = metadata.id " +
+                    "WHERE hoa_id = @hoaId " +
+                    "AND (CASE WHEN @type_object::integer IS NOT NULL THEN type_object = @type_object ELSE 1=1 END)", conn);
                 pgSqlCommand.Parameters.Add("@hoaId", hoaId);
+                pgSqlCommand.Parameters.Add("@type_object", type_object);
                 PgSqlDataAdapter pgSqlDataAdapter = new PgSqlDataAdapter(pgSqlCommand);
                 pgSqlDataAdapter.Fill(dataSet);
                 conn.Close();

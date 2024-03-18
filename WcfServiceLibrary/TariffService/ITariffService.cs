@@ -22,6 +22,9 @@ namespace WcfServiceLibrary.TariffService
         void DeleteTariff(int tariffId);
 
         [OperationContract]
-        DataSet GetTariffs(int hoaId);
+        DataSet GetTariffs(int hoaId,int? type_object);
+
+        [OperationContract]
+        DataSet GetServices(int hoaId, int type_object);
     }
 }
