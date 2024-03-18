@@ -175,7 +175,7 @@ namespace WcfServiceLibrary
             {
                 conn.Open();
                 PgSqlCommand pgSqlCommand = new PgSqlCommand("SELECT types_prop.name, metadata.type_object, metadata.id, metadata.formula, metadata.system_name, " +
-                    "metadata.property_name, metadata.type_property, metadata.type_parent, metadata.hoa_id " +
+                    "metadata.property_name, metadata.type_property, metadata.hoa_id " +
                     "FROM metadata " +
                     "JOIN types_prop ON metadata.type_property = types_prop.id " +
                     "where hoa_id = @hoaId and type_object = @typeObject and static = true", conn);
