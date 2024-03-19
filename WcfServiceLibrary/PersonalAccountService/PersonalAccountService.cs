@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
@@ -17,7 +18,7 @@ namespace WcfServiceLibrary
 
         readonly string connectionString = configurationDB["AppSettings:DatabaseConnection"];
 
-        public void addPersonalAccount(string account, int object_id)
+        public void AddPersonalAccount(string account, int object_id)
         {
             using (PgSqlConnection conn = new PgSqlConnection(connectionString))
             {
@@ -31,7 +32,7 @@ namespace WcfServiceLibrary
             }
         }
 
-        public void deletePersonalAccount(int id)
+        public void DeletePersonalAccount(int id)
         {
             using (PgSqlConnection conn = new PgSqlConnection(connectionString))
             {
@@ -43,7 +44,7 @@ namespace WcfServiceLibrary
             }
         }
 
-        public void editPersonalAccount(int id, string account, int object_id)
+        public void EditPersonalAccount(int id, string account, int object_id)
         {
             using (PgSqlConnection conn = new PgSqlConnection(connectionString))
             {
@@ -57,5 +58,22 @@ namespace WcfServiceLibrary
                 conn.Close();
             }
         }
+        public DataSet GetPersonalAccount(int hoaId)
+        {
+            DataSet dataSet = new DataSet();
+            using (PgSqlConnection conn = new PgSqlConnection(connectionString))
+            {
+                conn.Open();
+                PgSqlCommand pgSqlCommand = new PgSqlCommand("select personal_account.*,hoa_id from personal_account" +
+                    "join objects on objects.id = personal_account.object_id " +
+                    "where hoa_id = @hoaId", conn);
+                pgSqlCommand.Parameters.Add("@hoaId", hoaId);
+                PgSqlDataAdapter pgSqlDataAdapter = new PgSqlDataAdapter(pgSqlCommand);
+                pgSqlDataAdapter.Fill(dataSet);
+                conn.Close();
+            }
+            return dataSet;
+        }
+            
     }
 }

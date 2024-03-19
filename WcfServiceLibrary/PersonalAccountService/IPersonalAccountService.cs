@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
@@ -12,11 +13,14 @@ namespace WcfServiceLibrary
     public interface IPersonalAccountService
     {
         [OperationContract]
-        void addPersonalAccount(string account, int object_id);
+        void AddPersonalAccount(string account, int objectId);
         [OperationContract]
-        void deletePersonalAccount(int id);
+        void DeletePersonalAccount(int id);
         [OperationContract]
-        void editPersonalAccount(int id, string number, int object_id);
+        void EditPersonalAccount(int id, string number, int objectId);
+
+        [OperationContract]
+        DataSet GetPersonalAccount(int hoaId);
 
     }
 }
