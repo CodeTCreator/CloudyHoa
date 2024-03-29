@@ -148,6 +148,8 @@
     <Compile Include="ObjectsService\ObjectsService.cs" />
     <Compile Include="PersonalAccountService\IPersonalAccountService.cs" />
     <Compile Include="PersonalAccountService\PersonalAccountService.cs" />
+    <Compile Include="ApartmentResidents\ApartmentResidents.cs" />
+    <Compile Include="ApartmentResidents\IApartmentResidents.cs" />
     <Compile Include="ServiceHoaAccount\IServiceHoaAccount.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceHoaAccount\ServiceHoaAccount.cs" />
