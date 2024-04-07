@@ -13,8 +13,8 @@ namespace WcfServiceLibrary.ApartmentOwnersService
 
         readonly string connectionString = configurationDB["AppSettings:DatabaseConnection"];
 
-        public void AddResident(string fullName, int objectId, bool registered, DateTime registration_date,
-            bool residence, DateTime checkInDate, bool owner, int numenator, int denominator)
+        public void AddResident(string fullName, int objectId, bool registered, DateTime? registration_date,
+            bool residence, DateTime? checkInDate, bool owner, int? numenator, int? denominator)
         {
             using (PgSqlConnection conn = new PgSqlConnection(connectionString))
             {
@@ -52,8 +52,8 @@ namespace WcfServiceLibrary.ApartmentOwnersService
                 conn.Close();
             }
         }
-        public void EditResident(int Id, string fullName, int objectId, bool registered, DateTime registration_date,
-            bool residence, DateTime checkInDate, bool owner, int numenator, int denominator)
+        public void EditResident(int Id, string fullName, int objectId, bool registered, DateTime? registration_date,
+            bool residence, DateTime? checkInDate, bool owner, int? numenator, int? denominator)
         {
             using (PgSqlConnection conn = new PgSqlConnection(connectionString))
             {
