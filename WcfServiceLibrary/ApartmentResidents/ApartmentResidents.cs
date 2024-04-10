@@ -63,6 +63,7 @@ namespace WcfServiceLibrary.ApartmentOwnersService
                     " and check_in_date = @check_in_date" +
                     " and owner = @owner and owners_share_numerator = @numenator " +
                     " and  owners_share_denominator = @denominator where id = @id", conn);
+                pgSqlCommand.Parameters.Add("@id", Id);
                 pgSqlCommand.Parameters.Add("@fullName", fullName);
                 pgSqlCommand.Parameters.Add("@objectId", objectId);
 
@@ -86,7 +87,7 @@ namespace WcfServiceLibrary.ApartmentOwnersService
             using (PgSqlConnection conn = new PgSqlConnection(connectionString))
             {
                 conn.Open();
-                PgSqlCommand pgSqlCommand = new PgSqlCommand("select * from residents where object_id = @objectId", conn);
+                PgSqlCommand pgSqlCommand = new PgSqlCommand("select *, owners_share_numerator from residents where object_id = @objectId", conn);
                 pgSqlCommand.Parameters.Add("@objectId", objectId);
                 PgSqlDataAdapter pgSqlDataAdapter = new PgSqlDataAdapter(pgSqlCommand);
                 pgSqlDataAdapter.Fill(dataSet);
