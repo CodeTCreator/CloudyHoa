@@ -59,10 +59,11 @@ namespace WcfServiceLibrary.ApartmentOwnersService
             {
                 conn.Open();
                 PgSqlCommand pgSqlCommand = new PgSqlCommand("UPDATE residents SET full_name = @fullName, object_id = @objectId," +
-                    "registered = @registered and registration_date = @registration_date and residence = @residence " +
-                    " and check_in_date = @check_in_date" +
-                    " and owner = @owner and owners_share_numerator = @numenator " +
-                    " and  owners_share_denominator = @denominator where id = @id", conn);
+                    "registered = @registered, registration_date = @registration_date, residence = @residence, " +
+                    " check_in_date = @check_in_date, " +
+                    " owner = @owner, owners_share_numerator = @numenator, " +
+                    " owners_share_denominator = @denominator where id = @id", conn);
+                pgSqlCommand.Parameters.Add("@id", Id);
                 pgSqlCommand.Parameters.Add("@fullName", fullName);
                 pgSqlCommand.Parameters.Add("@objectId", objectId);
 
