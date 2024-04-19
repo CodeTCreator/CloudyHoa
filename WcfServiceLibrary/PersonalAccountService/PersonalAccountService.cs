@@ -69,13 +69,13 @@ namespace WcfServiceLibrary
                 conn.Close();
             }
         }
-        public DataSet GetPersonalAccount(int hoaId)
+        public DataSet GetPersonalAccounts(int hoaId)
         {
             DataSet dataSet = new DataSet();
             using (PgSqlConnection conn = new PgSqlConnection(connectionString))
             {
                 conn.Open();
-                PgSqlCommand pgSqlCommand = new PgSqlCommand("select personal_account.*,hoa_id from personal_account" +
+                PgSqlCommand pgSqlCommand = new PgSqlCommand("select personal_account.*,hoa_id from personal_account " +
                     "join objects on objects.id = personal_account.object_id " +
                     "where hoa_id = @hoaId", conn);
                 pgSqlCommand.Parameters.Add("@hoaId", hoaId);
