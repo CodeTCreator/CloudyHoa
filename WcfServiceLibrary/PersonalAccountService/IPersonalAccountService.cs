@@ -22,7 +22,7 @@ namespace WcfServiceLibrary
             int lives);
 
         [OperationContract]
-        DataSet GetPersonalAccount(int hoaId);
+        DataSet GetPersonalAccounts(int hoaId);
 
     }
 }
