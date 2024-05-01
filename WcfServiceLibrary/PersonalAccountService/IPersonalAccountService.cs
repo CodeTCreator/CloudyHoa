@@ -13,16 +13,14 @@ namespace WcfServiceLibrary
     public interface IPersonalAccountService
     {
         [OperationContract]
-        void AddPersonalAccount(string account, int object_id, int owners_id, int registered,
-            int lives);
+        void AddPersonalAccount(string account, int objectId, int ownerId, int registered, int lives);
         [OperationContract]
         void DeletePersonalAccount(int id);
         [OperationContract]
-        void EditPersonalAccount(int id, string account, int object_id, int owners_id, int registered,
-            int lives);
+        void EditPersonalAccount(int id, string account, int objectId, int ownerId, int registered, int lives);
 
         [OperationContract]
-        DataSet GetPersonalAccounts(int hoaId);
+        DataSet GetPersonalAccounts(int objectId);
 
     }
 }
