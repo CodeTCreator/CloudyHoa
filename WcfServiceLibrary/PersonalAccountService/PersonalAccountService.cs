@@ -18,15 +18,19 @@ namespace WcfServiceLibrary
 
         readonly string connectionString = configurationDB["AppSettings:DatabaseConnection"];
 
-        public void AddPersonalAccount(string account, int object_id)
+        public void AddPersonalAccount(string account, int objectId, int ownerId, int registered, int lives)
         {
             using (PgSqlConnection conn = new PgSqlConnection(connectionString))
             {
                 conn.Open();
-                PgSqlCommand pgSqlCommand = new PgSqlCommand("INSERT INTO personal_account (account, object_id) VALUES (@account,@object_id)"
+                PgSqlCommand pgSqlCommand = new PgSqlCommand("INSERT INTO personal_account (account, object_id, owner_id, lives,registered) " +
+                    "VALUES (@account,@object_id,@ownerId,@lives,@registered)"
                     , conn);
                 pgSqlCommand.Parameters.Add("@account", account);
-                pgSqlCommand.Parameters.Add("@object_id", object_id);
+                pgSqlCommand.Parameters.Add("@object_id", objectId);
+                pgSqlCommand.Parameters.Add("@ownerId", ownerId);
+                pgSqlCommand.Parameters.Add("@lives", registered);
+                pgSqlCommand.Parameters.Add("@registered", lives);
                 pgSqlCommand.ExecuteNonQuery();
                 conn.Close();
             }
@@ -44,36 +48,41 @@ namespace WcfServiceLibrary
             }
         }
 
-        public void EditPersonalAccount(int id, string account, int object_id)
+        public void EditPersonalAccount(int id, string account, int objectId, int ownerId, int registered, int lives)
         {
             using (PgSqlConnection conn = new PgSqlConnection(connectionString))
             {
                 conn.Open();
-                PgSqlCommand pgSqlCommand = new PgSqlCommand("UPDATE personal_account SET account = @account, object_id = @object_id" +
+                PgSqlCommand pgSqlCommand = new PgSqlCommand("UPDATE personal_account SET account = @account, object_id = @object_id," +
+                    "owner_id = @ownerId, lives = @lives,registered = @registered" +
                     " where id = @id", conn);
                 pgSqlCommand.Parameters.Add("@id", id);
                 pgSqlCommand.Parameters.Add("@account", account);
-                pgSqlCommand.Parameters.Add("@object_id", object_id);
+                pgSqlCommand.Parameters.Add("@object_id", objectId);
+                pgSqlCommand.Parameters.Add("@ownerId", ownerId);
+                pgSqlCommand.Parameters.Add("@lives", registered);
+                pgSqlCommand.Parameters.Add("@registered", lives);
                 pgSqlCommand.ExecuteNonQuery();
                 conn.Close();
             }
         }
-        public DataSet GetPersonalAccount(int hoaId)
+        public DataSet GetPersonalAccounts(int objectId)
         {
             DataSet dataSet = new DataSet();
             using (PgSqlConnection conn = new PgSqlConnection(connectionString))
             {
                 conn.Open();
-                PgSqlCommand pgSqlCommand = new PgSqlCommand("select personal_account.*,hoa_id from personal_account" +
+                PgSqlCommand pgSqlCommand = new PgSqlCommand("select personal_account.*,hoa_id,full_name from personal_account " +
                     "join objects on objects.id = personal_account.object_id " +
-                    "where hoa_id = @hoaId", conn);
-                pgSqlCommand.Parameters.Add("@hoaId", hoaId);
+                    "join residents on owner_id = residents.id " +
+                    "where personal_account.object_id = @objectId", conn);
+                pgSqlCommand.Parameters.Add("@objectId", objectId);
                 PgSqlDataAdapter pgSqlDataAdapter = new PgSqlDataAdapter(pgSqlCommand);
                 pgSqlDataAdapter.Fill(dataSet);
                 conn.Close();
             }
             return dataSet;
         }
-            
+
     }
 }
