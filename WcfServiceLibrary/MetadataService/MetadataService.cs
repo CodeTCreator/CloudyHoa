@@ -168,5 +168,21 @@ namespace WcfServiceLibrary.MetadataService
             }
             return dataSet;
         }
+
+        public DataSet GetServices(int typeObject)
+        {
+            DataSet dataSet = new DataSet();
+            using (PgSqlConnection conn = new PgSqlConnection(connectionString))
+            {
+                conn.Open();
+                PgSqlCommand pgSqlCommand = new PgSqlCommand("SELECT * from metadata " +
+                    "where calculated = false and static = false and type_object = @typeObject ", conn);
+                pgSqlCommand.Parameters.Add("@typeObject", typeObject);
+                PgSqlDataAdapter pgSqlDataAdapter = new PgSqlDataAdapter(pgSqlCommand);
+                pgSqlDataAdapter.Fill(dataSet);
+                conn.Close();
+            }
+            return dataSet;
+        }
     }
 }
