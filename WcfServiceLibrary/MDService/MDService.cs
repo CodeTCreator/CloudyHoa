@@ -75,8 +75,9 @@ namespace WcfServiceLibrary.MDService
             using (PgSqlConnection conn = new PgSqlConnection(connectionString))
             {
                 conn.Open();
-                PgSqlCommand pgSqlCommand = new PgSqlCommand("select metering_device.* " +
+                PgSqlCommand pgSqlCommand = new PgSqlCommand("select metering_device.*,property_name " +
                     "from metering_device " +
+                    "join metadata on metadata.id = metering_device.service_id " +
                     "join personal_account on metering_device.personal_account_id = personal_account.id " +
                     "where personal_account.object_id = @objectId", conn);
                 pgSqlCommand.Parameters.Add("@objectId", objectId);
@@ -93,8 +94,9 @@ namespace WcfServiceLibrary.MDService
             using (PgSqlConnection conn = new PgSqlConnection(connectionString))
             {
                 conn.Open();
-                PgSqlCommand pgSqlCommand = new PgSqlCommand("select * " +
+                PgSqlCommand pgSqlCommand = new PgSqlCommand("select metering_device.*,property_name " +
                     "from metering_device " +
+                    "join metadata on metadata.id = metering_device.service_id " +
                     "where personal_account_id = @personalAccountId", conn);
                 pgSqlCommand.Parameters.Add("@personalAccountId", personalAccountId);
                 PgSqlDataAdapter pgSqlDataAdapter = new PgSqlDataAdapter(pgSqlCommand);
