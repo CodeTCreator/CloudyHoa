@@ -1,5 +1,6 @@
 ﻿using Devart.Data.PostgreSql;
 using Microsoft.Extensions.Configuration;
+using System;
 using System.Data;
 
 namespace WcfServiceLibrary
@@ -133,6 +134,31 @@ namespace WcfServiceLibrary
                     "SELECT search_tree.*,name || ' ' || identificator as Name FROM search_tree " +
                     "join types_objects on types_objects.id = search_tree.type_object", conn);
                 pgSqlCommand.Parameters.Add("@objectId", objectId);
+                PgSqlDataAdapter pgSqlDataAdapter = new PgSqlDataAdapter(pgSqlCommand);
+                pgSqlDataAdapter.Fill(dataSet);
+                conn.Close();
+            }
+            return dataSet;
+        }
+
+        public DataSet GetTypesOfChilds(int typeObject)
+        {
+            DataSet dataSet = new DataSet();
+            using (PgSqlConnection conn = new PgSqlConnection(connectionString))
+            {
+                conn.Open();
+                PgSqlCommand pgSqlCommand = new PgSqlCommand("WITH RECURSIVE search_tree(id,name,parent_type, hoa_id) AS ( " +
+                    "SELECT types_objects.id,types_objects.name,types_objects.parent_type, types_objects.hoa_id " +
+                    "FROM types_objects " +
+                    "where types_objects.id = @typeObject " +
+                    "UNION ALL " +
+                    "SELECT t.id, t.name, t.parent_type,t.hoa_id " +
+                    "FROM types_objects t, search_tree st " +
+                    "WHERE st.id = t.parent_type " +
+                    ") " +
+                    "SELECT search_tree.* FROM search_tree " +
+                    "WHERE id != @typeObject", conn);
+                pgSqlCommand.Parameters.Add("@typeObject", typeObject);
                 PgSqlDataAdapter pgSqlDataAdapter = new PgSqlDataAdapter(pgSqlCommand);
                 pgSqlDataAdapter.Fill(dataSet);
                 conn.Close();
