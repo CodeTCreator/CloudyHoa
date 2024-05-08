@@ -28,6 +28,12 @@ namespace WcfServiceLibrary
         DataSet GetObjectsStructure(int hoa_id);
 
         [OperationContract]
+        DataSet GetAllChilds(int objectId, int typeObject);
+
+        [OperationContract]
         DataSet GetObjectsParents(int hoa_id, int type_object);
+        
+        [OperationContract]
+        DataSet GetPathObject(int objectId);
     }
 }
