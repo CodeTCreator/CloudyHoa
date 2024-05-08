@@ -60,7 +60,6 @@ namespace WcfServiceLibrary
                 conn.Close();
             }
         }
-
         public DataSet GetAllObjects(int hoaId)
         {
             DataSet dataSet = new DataSet();
@@ -84,6 +83,56 @@ namespace WcfServiceLibrary
                 conn.Open();
                 PgSqlCommand pgSqlCommand = new PgSqlCommand("select * from types_objects where hoa_id = @hoaId", conn);
                 pgSqlCommand.Parameters.Add("@hoaId", hoaId);
+                PgSqlDataAdapter pgSqlDataAdapter = new PgSqlDataAdapter(pgSqlCommand);
+                pgSqlDataAdapter.Fill(dataSet);
+                conn.Close();
+            }
+            return dataSet;
+        }
+
+        public DataSet GetAllChilds(int objectId, int typeObject)
+        {
+            DataSet dataSet = new DataSet();
+            using (PgSqlConnection conn = new PgSqlConnection(connectionString))
+            {
+                conn.Open();
+                PgSqlCommand pgSqlCommand = new PgSqlCommand("WITH RECURSIVE search_tree(id,type_object,identificator, parent_id) AS ( " +
+                   "SELECT objects.id,objects.type_object,objects.identificator, objects.parent_id" +
+                   " FROM objects where objects.id = @objectId " +
+                   "UNION ALL " +
+                   "SELECT t.id, t.type_object, t.identificator,t.parent_id " +
+                   "FROM objects t, search_tree st " +
+                   "WHERE st.id = t.parent_id " +
+                   ") " +
+                   "SELECT search_tree.*,name || ' ' || identificator as Name FROM search_tree " +
+                   "join types_objects on types_objects.id = search_tree.type_object " +
+                   "where type_object = @typeObject ", conn);
+                pgSqlCommand.Parameters.Add("@typeObject", typeObject);
+                pgSqlCommand.Parameters.Add("@objectId", objectId);
+                PgSqlDataAdapter pgSqlDataAdapter = new PgSqlDataAdapter(pgSqlCommand);
+                pgSqlDataAdapter.Fill(dataSet);
+                conn.Close();
+            }
+            return dataSet;
+        }
+
+        public DataSet GetPathObject(int objectId)
+        {
+            DataSet dataSet = new DataSet();
+            using (PgSqlConnection conn = new PgSqlConnection(connectionString))
+            {
+                conn.Open();
+                PgSqlCommand pgSqlCommand = new PgSqlCommand("WITH RECURSIVE search_tree(id,type_object,identificator, parent_id) AS ( " +
+                    "SELECT objects.id,objects.type_object,objects.identificator, objects.parent_id" +
+                    " FROM objects where objects.id = @objectId " +
+                    "UNION ALL " +
+                    "SELECT t.id, t.type_object, t.identificator,t.parent_id " +
+                    "FROM objects t, search_tree st " +
+                    "WHERE st.parent_id = t.id " +
+                    ") " +
+                    "SELECT search_tree.*,name || ' ' || identificator as Name FROM search_tree " +
+                    "join types_objects on types_objects.id = search_tree.type_object", conn);
+                pgSqlCommand.Parameters.Add("@objectId", objectId);
                 PgSqlDataAdapter pgSqlDataAdapter = new PgSqlDataAdapter(pgSqlCommand);
                 pgSqlDataAdapter.Fill(dataSet);
                 conn.Close();
