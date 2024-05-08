@@ -61,7 +61,7 @@ namespace WcfServiceLibrary
             }
         }
 
-        public DataSet getAllObjects(int hoaId)
+        public DataSet GetAllObjects(int hoaId)
         {
             DataSet dataSet = new DataSet();
             using (PgSqlConnection conn = new PgSqlConnection(connectionString))
@@ -76,7 +76,7 @@ namespace WcfServiceLibrary
             return dataSet;
         }
 
-        public DataSet getObjectsStructure(int hoaId)
+        public DataSet GetObjectsStructure(int hoaId)
         {
             DataSet dataSet = new DataSet();
             using (PgSqlConnection conn = new PgSqlConnection(connectionString))
