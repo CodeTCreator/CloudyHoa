@@ -9,6 +9,7 @@ using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
+using System.Xml.Linq;
 
 namespace WcfServiceLibrary.DPService
 {
@@ -18,6 +19,23 @@ namespace WcfServiceLibrary.DPService
         static IConfiguration configurationDB = new ConfigurationBuilder().AddJsonFile("AppSettings.json").Build();
 
         readonly string connectionString = configurationDB["AppSettings:DatabaseConnection"];
+
+        public void AddDynamicParam(int objectId, float value, DateTime period, int propertyId)
+        {
+            using (PgSqlConnection conn = new PgSqlConnection(connectionString))
+            {
+                conn.Open();
+                PgSqlCommand pgSqlCommand = new PgSqlCommand("INSERT INTO dynamic_params (object_id, value, period, property_id) " +
+                    "VALUES (@object_id, @value, @period, @property_id)"
+                    , conn);
+                pgSqlCommand.Parameters.Add("@object_id", objectId);
+                pgSqlCommand.Parameters.Add("@value", value);
+                pgSqlCommand.Parameters.Add("@period", period);
+                pgSqlCommand.Parameters.Add("@property_id", propertyId);
+                pgSqlCommand.ExecuteNonQuery();
+                conn.Close();
+            }
+        }
 
         public DataSet BoneDynamicParams(int typeObject, int hoaId)
         {
