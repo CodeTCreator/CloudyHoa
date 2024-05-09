@@ -1,15 +1,7 @@
-﻿using Devart.Common;
-using Devart.Data.PostgreSql;
+﻿using Devart.Data.PostgreSql;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.ServiceModel;
-using System.Text;
-using System.Xml.Linq;
+
 
 namespace WcfServiceLibrary
 {
@@ -18,9 +10,7 @@ namespace WcfServiceLibrary
     {
 
         static IConfiguration configurationDB = new ConfigurationBuilder().AddJsonFile("AppSettings.json").Build();
-
         readonly string connectionString = configurationDB["AppSettings:DatabaseConnection"];
-        //string connectionString = "";
 
         public void AddAccount(string Name,string Login, string Password)
         {
