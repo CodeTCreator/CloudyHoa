@@ -13,7 +13,10 @@ namespace WcfServiceLibrary.DPService
     public interface IDynamicParamsService
     {
         [OperationContract]
-        DataSet OldDynamicParams(int hoaId);
+        DataSet OldDynamicParams(int typeObject);
+
+        [OperationContract]
+        DataSet OldAllDynamicParams(int hoaId);
 
         [OperationContract]
         DataSet SchemeDPTable();

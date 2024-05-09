@@ -63,16 +63,39 @@ namespace WcfServiceLibrary.DPService
             return dataSet;
         }
 
-        public DataSet OldDynamicParams(int hoaId)
+        public DataSet OldAllDynamicParams(int hoaId)
         {
             DataSet dataSet = new DataSet();
             using (PgSqlConnection conn = new PgSqlConnection(connectionString))
             {
                 conn.Open();
-                PgSqlCommand pgSqlCommand = new PgSqlCommand("select distinct on (property_id,object_id) property_id,period, value,object_id " +
-                    "from dynamic_params join metadata on metadata.id = property_id " +
-                    "where hoa_id = :hoa_id order by property_id,object_id,period desc", conn);
+                PgSqlCommand pgSqlCommand = new PgSqlCommand("select distinct on (property_id,object_id) property_id,period, value,object_id, property_name " +
+                    "from dynamic_params " +
+                    "join metadata on metadata.id = property_id " +
+                    "where hoa_id = :hoa_id " +
+                    "order by property_id,object_id,period desc", conn);
                 pgSqlCommand.Parameters.Add(":hoa_id", hoaId);
+                using (PgSqlDataAdapter pgSqlDataAdapter = new PgSqlDataAdapter(pgSqlCommand))
+                {
+                    pgSqlDataAdapter.Fill(dataSet);
+
+                }
+                conn.Close();
+            }
+            return dataSet;
+        }
+        public DataSet OldDynamicParams(int typeObject)
+        {
+            DataSet dataSet = new DataSet();
+            using (PgSqlConnection conn = new PgSqlConnection(connectionString))
+            {
+                conn.Open();
+                PgSqlCommand pgSqlCommand = new PgSqlCommand("select distinct on (property_id,object_id) property_id,period, value,object_id, property_name " +
+                    "from dynamic_params " +
+                    "join metadata on metadata.id = property_id " +
+                    "where type_object = @typeObject " +
+                    "order by property_id,object_id,period desc", conn);
+                pgSqlCommand.Parameters.Add("@typeObject", typeObject);
                 using (PgSqlDataAdapter pgSqlDataAdapter = new PgSqlDataAdapter(pgSqlCommand))
                 {
                     pgSqlDataAdapter.Fill(dataSet);
