@@ -43,7 +43,7 @@ namespace WcfServiceLibrary
             {
                 conn.Open();
                 PgSqlCommand pgSqlCommand = new PgSqlCommand("Select * from hoa where name = @Name", conn);
-                pgSqlCommand.Parameters.Add("@Name",Name );
+                pgSqlCommand.Parameters.Add("@Name", Name);
                 using (PgSqlDataReader reader = pgSqlCommand.ExecuteReader())
                 {
                     if (!reader.HasRows)
