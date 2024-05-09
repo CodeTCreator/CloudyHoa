@@ -105,7 +105,7 @@ namespace WcfServiceLibrary
                    "FROM objects t, search_tree st " +
                    "WHERE st.id = t.parent_id " +
                    ") " +
-                   "SELECT search_tree.*,name || ' ' || identificator as Name FROM search_tree " +
+                   "SELECT search_tree.*,name, identificator FROM search_tree " +
                    "join types_objects on types_objects.id = search_tree.type_object " +
                    "where type_object = @typeObject ", conn);
                 pgSqlCommand.Parameters.Add("@typeObject", typeObject);
