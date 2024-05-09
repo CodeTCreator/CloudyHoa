@@ -157,8 +157,6 @@
     <Compile Include="ServiceHoaAccount\IServiceHoaAccount.cs" />
     <Compile Include="DPService\DynamicParamsService.cs" />
     <Compile Include="DPService\IDynamicParamsService.cs" />
-    <Compile Include="IService1.cs" />
-    <Compile Include="IServiceHoaAccount.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceHoaAccount\ServiceHoaAccount.cs" />
     <Compile Include="SPService\IStaticParamsService.cs" />
