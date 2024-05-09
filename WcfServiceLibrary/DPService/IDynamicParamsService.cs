@@ -12,6 +12,10 @@ namespace WcfServiceLibrary.DPService
     [ServiceContract]
     public interface IDynamicParamsService
     {
+
+        [OperationContract]
+        void AddDynamicParam(int objectId,float value, DateTime period, int propertyId);
+
         [OperationContract]
         DataSet OldDynamicParams(int typeObject);
 
