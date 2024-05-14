@@ -26,10 +26,14 @@ namespace WcfServiceLibrary.DPService
         DataSet SchemeDPTable();
 
         [OperationContract]
-        DataSet BoneDynamicParams(int typeObject, int hoaId);
+        DataSet BoneDynamicParams(int typeObject);
 
         // Сделать работу с DataSet, чтобы только отправлять с сервера и отображать
         [OperationContract]
         DataSet DynamicParametersTable(int hoaId,int typeObject);
+
+        // Шаблон для дочерних объектов, родительского объекта
+        [OperationContract]
+        DataSet BoneDynamicParamsFromChildrens(int objectId, int typeObject);
     }
 }
