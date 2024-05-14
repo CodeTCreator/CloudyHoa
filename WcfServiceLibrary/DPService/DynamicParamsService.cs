@@ -69,8 +69,8 @@ namespace WcfServiceLibrary.DPService
                     "SELECT t.id, t.type_object, t.identificator,t.parent_id " +
                     "FROM objects t, search_tree st " +
                     "WHERE st.id = t.parent_id ) " +
-                    "SELECT search_tree.id,search_tree.type_object,parent_id,name || ' ' || identificator as Name,  " +
-                    "account,metadata.property_name,metadata.id,period,value,personal_account_id " +
+                    "SELECT search_tree.id as object_id,search_tree.type_object,parent_id,name || ' ' || identificator as Name,  " +
+                    "account,metadata.property_name,metadata.id as property_id,period,value,personal_account_id " +
                     "FROM search_tree " +
                     "join types_objects on types_objects.id = search_tree.type_object " +
                     "left join personal_account on personal_account.object_id = search_tree.id " +
