@@ -20,15 +20,16 @@ namespace WcfServiceLibrary.DPService
 
         readonly string connectionString = configurationDB["AppSettings:DatabaseConnection"];
 
-        public void AddDynamicParam(int objectId, float value, DateTime period, int propertyId)
+        public void AddDynamicParam(int paId, float value, DateTime period, int propertyId, int tariffId)
         {
             using (PgSqlConnection conn = new PgSqlConnection(connectionString))
             {
                 conn.Open();
-                PgSqlCommand pgSqlCommand = new PgSqlCommand("INSERT INTO dynamic_params (object_id, value, period, property_id) " +
-                    "VALUES (@object_id, @value, @period, @property_id)"
+                PgSqlCommand pgSqlCommand = new PgSqlCommand("INSERT INTO dynamic_params (personal_account_id,tariff_id, value, period, property_id) " +
+                    "VALUES (@personal_account_id,@tariff_id, @value, @period, @property_id)"
                     , conn);
-                pgSqlCommand.Parameters.Add("@object_id", objectId);
+                pgSqlCommand.Parameters.Add("@personal_account_id", paId);
+                pgSqlCommand.Parameters.Add("@tariff_id", tariffId);
                 pgSqlCommand.Parameters.Add("@value", value);
                 pgSqlCommand.Parameters.Add("@period", period);
                 pgSqlCommand.Parameters.Add("@property_id", propertyId);
