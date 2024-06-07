@@ -110,14 +110,16 @@ namespace WcfServiceLibrary.ExpensesService
             }
         }
 
-        public DataSet GetCategories()
+        public DataSet GetCategories(int hoa_id)
         {
             DataSet dataSet = new DataSet();
             using (PgSqlConnection conn = new PgSqlConnection(connectionString))
             {
                 conn.Open();
-                PgSqlCommand pgSqlCommand = new PgSqlCommand("select expenses_categories.* from expenses_categories "
+                PgSqlCommand pgSqlCommand = new PgSqlCommand("select expenses_categories.* from expenses_categories " +
+                    "where hoa_id = @hoa_id"
                     , conn);
+                pgSqlCommand.Parameters.Add("@hoa_id", hoa_id);
                 PgSqlDataAdapter pgSqlDataAdapter = new PgSqlDataAdapter(pgSqlCommand);
                 pgSqlDataAdapter.Fill(dataSet);
                 conn.Close();
@@ -125,7 +127,7 @@ namespace WcfServiceLibrary.ExpensesService
             return dataSet;
         }
 
-        public DataSet GetExpenses(DateTime dateTime)
+        public DataSet GetExpenses(System.DateTime dateTime)
         {
             DataSet dataSet = new DataSet();
             using (PgSqlConnection conn = new PgSqlConnection(connectionString))
