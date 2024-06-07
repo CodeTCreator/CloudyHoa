@@ -32,7 +32,7 @@ namespace WcfServiceLibrary.ExpensesService
         void DeleteExpense(int expenseId);
 
         [OperationContract]
-        DataSet GetCategories();
+        DataSet GetCategories(int hoa_id);
 
         [OperationContract]
         DataSet GetExpenses(DateTime dateTime);
