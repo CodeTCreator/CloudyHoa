@@ -144,6 +144,8 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExpensesService\ExpensesService.cs" />
+    <Compile Include="ExpensesService\IExpensesService.cs" />
     <Compile Include="MDService\IMDService.cs" />
     <Compile Include="MDService\MDService.cs" />
     <Compile Include="MetadataService\IMetadataService.cs" />
