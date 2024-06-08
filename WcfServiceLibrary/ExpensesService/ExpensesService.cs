@@ -150,7 +150,7 @@ namespace WcfServiceLibrary.ExpensesService
             using (PgSqlConnection conn = new PgSqlConnection(connectionString))
             {
                 conn.Open();
-                PgSqlCommand pgSqlCommand = new PgSqlCommand("select expenses.*, expenses_categories.name from expenses" +
+                PgSqlCommand pgSqlCommand = new PgSqlCommand("select expenses.*, expenses_categories.name from expenses " +
                     "join expenses_categories on expenses.id = expenses_categories.id ", conn);
                 PgSqlDataAdapter pgSqlDataAdapter = new PgSqlDataAdapter(pgSqlCommand);
                 pgSqlDataAdapter.Fill(dataSet);
