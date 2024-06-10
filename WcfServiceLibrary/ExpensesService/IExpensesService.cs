@@ -13,7 +13,7 @@ namespace WcfServiceLibrary.ExpensesService
     public interface IExpensesService
     {
         [OperationContract]
-        void AddCategory(string name);
+        void AddCategory(string name, int hoa_id);
 
         [OperationContract]
         void EditCategory(int categoryId, string name);
