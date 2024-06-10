@@ -20,15 +20,16 @@ namespace WcfServiceLibrary.ExpensesService
 
         readonly string connectionString = configurationDB["AppSettings:DatabaseConnection"];
 
-        public void AddCategory(string name)
+        public void AddCategory(string name, int hoa_id)
         {
             using (PgSqlConnection conn = new PgSqlConnection(connectionString))
             {
                 conn.Open();
-                PgSqlCommand pgSqlCommand = new PgSqlCommand("INSERT INTO expenses_categories (name) " +
-                    "VALUES (@name)"
+                PgSqlCommand pgSqlCommand = new PgSqlCommand("INSERT INTO expenses_categories (name,hoa_id) " +
+                    "VALUES (@name,@hoa_id)"
                     , conn);
                 pgSqlCommand.Parameters.Add("@name", name);
+                pgSqlCommand.Parameters.Add("@hoa_id", hoa_id);
                 pgSqlCommand.ExecuteNonQuery();
                 conn.Close();
             }
