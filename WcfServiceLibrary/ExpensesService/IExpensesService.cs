@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Runtime.Serialization;
 using System.ServiceModel;
-using System.Text;
 
 namespace WcfServiceLibrary.ExpensesService
 {
@@ -38,6 +34,6 @@ namespace WcfServiceLibrary.ExpensesService
         DataSet GetExpenses(DateTime dateTime);
 
         [OperationContract]
-        DataSet GetAllExpenses();
+        DataSet GetAllExpenses(int hoa_id);
     }
 }
