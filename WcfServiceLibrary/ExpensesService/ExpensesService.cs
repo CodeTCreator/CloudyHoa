@@ -1,14 +1,7 @@
 ﻿using Devart.Data.PostgreSql;
-using DevExpress.XtraEditors.SyntaxEditor;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Security.Principal;
-using System.ServiceModel;
-using System.Text;
+
 
 namespace WcfServiceLibrary.ExpensesService
 {
@@ -145,14 +138,15 @@ namespace WcfServiceLibrary.ExpensesService
             return dataSet;
         }
 
-        public DataSet GetAllExpenses()
+        public DataSet GetAllExpenses(int hoa_id)
         {
             DataSet dataSet = new DataSet();
             using (PgSqlConnection conn = new PgSqlConnection(connectionString))
             {
                 conn.Open();
-                PgSqlCommand pgSqlCommand = new PgSqlCommand("select expenses.*, expenses_categories.name from expenses " +
-                    "join expenses_categories on expenses.id = expenses_categories.id ", conn);
+                PgSqlCommand pgSqlCommand = new PgSqlCommand(" select expenses.*, expenses_categories.name from expenses " +
+                    "left join expenses_categories on expenses.category_id = expenses_categories.id and hoa_id = @hoa_id", conn);
+                pgSqlCommand.Parameters.Add("@hoa_id", hoa_id);
                 PgSqlDataAdapter pgSqlDataAdapter = new PgSqlDataAdapter(pgSqlCommand);
                 pgSqlDataAdapter.Fill(dataSet);
                 conn.Close();
