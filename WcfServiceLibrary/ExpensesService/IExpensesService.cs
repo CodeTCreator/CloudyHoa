@@ -19,10 +19,10 @@ namespace WcfServiceLibrary.ExpensesService
 
 
         [OperationContract]
-        void AddExpense(int categoryId, string name, float quantity, float cost, float resultCost);
+        void AddExpense(int categoryId, string name, float quantity, float cost, float resultCost, DateTime date);
 
         [OperationContract]
-        void EditExpense(int expenseId, int categoryId, string name, float quantity, float cost, float resultCost);
+        void EditExpense(int expenseId, int categoryId, string name, float quantity, float cost, float resultCost, DateTime date);
 
         [OperationContract]
         void DeleteExpense(int expenseId);
