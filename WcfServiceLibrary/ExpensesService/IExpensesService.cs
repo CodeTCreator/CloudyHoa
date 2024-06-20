@@ -22,7 +22,12 @@ namespace WcfServiceLibrary.ExpensesService
         void AddExpense(int categoryId, string name, float quantity, float cost, float resultCost, DateTime date);
 
         [OperationContract]
+        void AddExternalExpense(int categoryId, string name, float quantity, float cost, float resultCost, DateTime date,int objectId);
+
+        [OperationContract]
         void EditExpense(int expenseId, int categoryId, string name, float quantity, float cost, float resultCost, DateTime date);
+        [OperationContract]
+        void EditExternalExpense(int expenseId, int categoryId, string name, float quantity, float cost, float resultCost, DateTime date, int objectId);
 
         [OperationContract]
         void DeleteExpense(int expenseId);
