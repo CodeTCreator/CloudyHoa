@@ -198,5 +198,39 @@ namespace WcfServiceLibrary.ExpensesService
                 conn.Close();
             }
         }
+
+        public DataSet GetInternalExpenses(int hoa_id)
+        {
+            DataSet dataSet = new DataSet();
+            using (PgSqlConnection conn = new PgSqlConnection(connectionString))
+            {
+                conn.Open();
+                PgSqlCommand pgSqlCommand = new PgSqlCommand(" select expenses.*, expenses_categories.name from expenses " +
+                    "left join expenses_categories on expenses.category_id = expenses_categories.id and hoa_id = @hoa_id " +
+                    "where object_id is null", conn);
+                pgSqlCommand.Parameters.Add("@hoa_id", hoa_id);
+                PgSqlDataAdapter pgSqlDataAdapter = new PgSqlDataAdapter(pgSqlCommand);
+                pgSqlDataAdapter.Fill(dataSet);
+                conn.Close();
+            }
+            return dataSet;
+        }
+
+        public DataSet GetExternalExpenses(int hoa_id)
+        {
+            DataSet dataSet = new DataSet();
+            using (PgSqlConnection conn = new PgSqlConnection(connectionString))
+            {
+                conn.Open();
+                PgSqlCommand pgSqlCommand = new PgSqlCommand(" select expenses.*, expenses_categories.name from expenses " +
+                    "left join expenses_categories on expenses.category_id = expenses_categories.id and hoa_id = @hoa_id " +
+                    "where object_id is not null", conn);
+                pgSqlCommand.Parameters.Add("@hoa_id", hoa_id);
+                PgSqlDataAdapter pgSqlDataAdapter = new PgSqlDataAdapter(pgSqlCommand);
+                pgSqlDataAdapter.Fill(dataSet);
+                conn.Close();
+            }
+            return dataSet;
+        }
     }
 }
