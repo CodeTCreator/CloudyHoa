@@ -35,5 +35,8 @@ namespace WcfServiceLibrary
 
         [OperationContract]
         DataSet GetTypesOfChilds(int typeObject);
+
+        [OperationContract]
+        DataSet GetObject(int objectId);
     }
 }

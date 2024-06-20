@@ -165,5 +165,22 @@ namespace WcfServiceLibrary
             }
             return dataSet;
         }
+
+        public DataSet GetObject(int objectId)
+        {
+            DataSet dataSet = new DataSet();
+            using (PgSqlConnection conn = new PgSqlConnection(connectionString))
+            {
+                conn.Open();
+                PgSqlCommand pgSqlCommand = new PgSqlCommand("select objects.*, name from objects" +
+                    " join types_objects on type_object = types_objects.id " +
+                    " where objects.id = @objectId", conn);
+                pgSqlCommand.Parameters.Add("@objectId", objectId);
+                PgSqlDataAdapter pgSqlDataAdapter = new PgSqlDataAdapter(pgSqlCommand);
+                pgSqlDataAdapter.Fill(dataSet);
+                conn.Close();
+            }
+            return dataSet;
+        }
     }
 }
