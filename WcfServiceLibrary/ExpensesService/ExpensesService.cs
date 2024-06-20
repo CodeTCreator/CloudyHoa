@@ -222,8 +222,11 @@ namespace WcfServiceLibrary.ExpensesService
             using (PgSqlConnection conn = new PgSqlConnection(connectionString))
             {
                 conn.Open();
-                PgSqlCommand pgSqlCommand = new PgSqlCommand(" select expenses.*, expenses_categories.name from expenses " +
+                PgSqlCommand pgSqlCommand = new PgSqlCommand(" select expenses.*, expenses_categories.name, types_objects.name, objects.identificator" +
+                    " from expenses " +
                     "left join expenses_categories on expenses.category_id = expenses_categories.id and hoa_id = @hoa_id " +
+                    "left join objects on object_id = objects.id " +
+                    "left join types_objects on types_objects.id = objects.type_object " +
                     "where object_id is not null", conn);
                 pgSqlCommand.Parameters.Add("@hoa_id", hoa_id);
                 PgSqlDataAdapter pgSqlDataAdapter = new PgSqlDataAdapter(pgSqlCommand);
