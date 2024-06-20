@@ -40,5 +40,10 @@ namespace WcfServiceLibrary.ExpensesService
 
         [OperationContract]
         DataSet GetAllExpenses(int hoa_id);
+
+        [OperationContract]
+        DataSet GetInternalExpenses(int hoa_id);
+        [OperationContract]
+        DataSet GetExternalExpenses(int hoa_id);
     }
 }
