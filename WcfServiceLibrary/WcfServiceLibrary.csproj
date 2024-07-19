@@ -144,13 +144,9 @@
     <Compile Include="CalculationClasses\CalculateProperty.cs" />
     <Compile Include="CalculationClasses\DatabaseManager.cs" />
     <Compile Include="CalculationClasses\DBRequest.cs" />
-    <Compile Include="CalculationsService.cs" />
-    <Compile Include="ICalculationsService.cs" />
-    <Compile Include="IService1.cs" />
-    <Compile Include="IServiceHoaAccount.cs" />
+    <Compile Include="CalculationService\CalculationsService.cs" />
+    <Compile Include="CalculationService\ICalculationsService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Service1.cs" />
-    <Compile Include="ServiceHoaAccount.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
