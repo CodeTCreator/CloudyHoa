@@ -67,7 +67,7 @@ namespace WcfServiceLibrary
                 conn.Close();
             }
         }
-        public DataSet GetPersonalAccounts(int objectId)
+        public DataSet GetPersonalAccount(int objectId)
         {
             DataSet dataSet = new DataSet();
             using (PgSqlConnection conn = new PgSqlConnection(connectionString))
@@ -78,6 +78,25 @@ namespace WcfServiceLibrary
                     "join residents on owner_id = residents.id " +
                     "where personal_account.object_id = @objectId", conn);
                 pgSqlCommand.Parameters.Add("@objectId", objectId);
+                PgSqlDataAdapter pgSqlDataAdapter = new PgSqlDataAdapter(pgSqlCommand);
+                pgSqlDataAdapter.Fill(dataSet);
+                conn.Close();
+            }
+            return dataSet;
+        }
+        public DataSet GetPersonalAccounts(int typeObject)
+        {
+            DataSet dataSet = new DataSet();
+            using (PgSqlConnection conn = new PgSqlConnection(connectionString))
+            {
+                conn.Open();
+                PgSqlCommand pgSqlCommand = new PgSqlCommand("select personal_account.id,personal_account.account,full_name, objects.id as object_id, types_objects.name " +
+                    "from personal_account " +
+                    "join objects on objects.id = personal_account.object_id " +
+                    "join residents on owner_id = residents.id " +
+                    "join types_objects on types_objects.id = objects.type_object " +
+                    "where type_object = @typeObject", conn);
+                pgSqlCommand.Parameters.Add("@typeObject", typeObject);
                 PgSqlDataAdapter pgSqlDataAdapter = new PgSqlDataAdapter(pgSqlCommand);
                 pgSqlDataAdapter.Fill(dataSet);
                 conn.Close();

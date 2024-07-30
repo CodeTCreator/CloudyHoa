@@ -20,7 +20,10 @@ namespace WcfServiceLibrary
         void EditPersonalAccount(int id, string account, int objectId, int ownerId, int registered, int lives);
 
         [OperationContract]
-        DataSet GetPersonalAccounts(int objectId);
+        DataSet GetPersonalAccount(int objectId);
+
+        [OperationContract]
+        DataSet GetPersonalAccounts(int typeObject);
 
     }
 }
