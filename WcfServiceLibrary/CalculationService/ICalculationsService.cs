@@ -16,7 +16,7 @@ namespace WcfServiceLibrary
         DataSet GetCalculations(int objectId, DateTime period);
 
         [OperationContract]
-        DataSet GetTemplate(int propId, DateTime period);
+        DataSet GetTemplate(int propId);
 
         [OperationContract]
         void AddCalculation(int propId, DateTime period, float value, int paId);
@@ -26,5 +26,8 @@ namespace WcfServiceLibrary
 
         [OperationContract]
         void DeleteCalcuation(int id);
+
+        [OperationContract]
+        double CalculateResultValue(int propId, int objectId, int paId, DateTime period);
     }
 }

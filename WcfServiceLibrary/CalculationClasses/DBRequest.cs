@@ -9,11 +9,11 @@ namespace UHoaAdmin.ParametrWindows
 
         DatabaseManager databaseManager;
         DateTime period;
-        public DBRequest() 
+        public DBRequest()
         {
 
         }
-        public DBRequest(DatabaseManager databaseManager_new,DateTime dateTime)
+        public DBRequest(DatabaseManager databaseManager_new, DateTime dateTime)
         {
             //databaseManager = new DatabaseManager(pgSqlConnection);
             databaseManager = databaseManager_new;
@@ -32,7 +32,7 @@ namespace UHoaAdmin.ParametrWindows
         /// <param name="type_object"></param>
         /// <param name="identificator"></param>
         /// <returns></returns>
-        public float GetCurrentValue(string SystemName,int object_id)
+        public float GetCurrentValue(string SystemName, int object_id, int paId)
         {
             float result = 0;
             PgSqlCommand pgSqlCommand;
@@ -43,8 +43,8 @@ namespace UHoaAdmin.ParametrWindows
                 "inner join objects on objects.type_object = metadata.type_object " +
                 "where system_name = @value1 and objects.id = @value2",
                 databaseManager.Connection);
-            pgSqlCommand.Parameters.Add("@value1",SystemName);
-            pgSqlCommand.Parameters.Add("@value2",object_id); 
+            pgSqlCommand.Parameters.Add("@value1", SystemName);
+            pgSqlCommand.Parameters.Add("@value2", object_id);
             pgSqlDataReader = pgSqlCommand.ExecuteReader();
             pgSqlDataReader.Read();
             if (pgSqlDataReader.HasRows)
@@ -67,12 +67,12 @@ namespace UHoaAdmin.ParametrWindows
                 else
                 {
                     pgSqlCommand = new PgSqlCommand("select value from dynamic_params " +
-                        "where property_id = @value1 and object_id = @value2 " +
+                        "where property_id = @value1 and personal_account_id = @value2 " +
                         "and extract(MONTH FROM period) = extract(MONTH FROM @value3::DATE) " +
                         "and extract(YEAR FROM period) = extract(YEAR FROM @value3::DATE) order by period desc",
                     databaseManager.Connection);
                     pgSqlCommand.Parameters.Add("@value1", property_id);
-                    pgSqlCommand.Parameters.Add("@value2", object_id);
+                    pgSqlCommand.Parameters.Add("@value2", paId);
                     pgSqlCommand.Parameters.Add("@value3", period);
                     pgSqlDataReader = pgSqlCommand.ExecuteReader();
                     pgSqlDataReader.Read();
@@ -85,7 +85,7 @@ namespace UHoaAdmin.ParametrWindows
             return result;
         }
 
-        public float GetPreviousValue(string SystemName,int object_id)
+        public float GetPreviousValue(string SystemName, int object_id, int paId)
         {
             float result = 0;
             PgSqlCommand pgSqlCommand;
@@ -112,16 +112,16 @@ namespace UHoaAdmin.ParametrWindows
                     pgSqlCommand.Parameters.Add("@value2", object_id);
                     pgSqlDataReader = pgSqlCommand.ExecuteReader();
                     pgSqlDataReader.Read(); pgSqlDataReader.Read();
-                    if(pgSqlDataReader.HasRows)
+                    if (pgSqlDataReader.HasRows)
                     {
                         result = pgSqlDataReader.GetFloat(0);
                     }
-                    
+
                 }
                 else
                 {
                     pgSqlCommand = new PgSqlCommand("select value from dynamic_params " +
-                        "where property_id = @value1 and object_id = @value2 " +
+                        "where property_id = @value1 and personal_account_id = @value2 and tariff_id = @value3 " +
                         "and extract(MONTH FROM period) = extract(MONTH FROM '@value3'::DATE) " +
                         "and extract(YEAR FROM period) = extract(YEAR FROM '@value3'::DATE) order by period desc",
                     databaseManager.Connection);
@@ -136,6 +136,49 @@ namespace UHoaAdmin.ParametrWindows
                     }
                 }
             }
+            return result;
+        }
+
+
+        public float GetTariffValue(string SystemName)
+        {
+            float result = 0;
+            int metadataId = 0;
+            PgSqlCommand pgSqlCommand;
+            PgSqlDataReader pgSqlDataReader;
+
+            pgSqlCommand = new PgSqlCommand("select id from metadata " +
+                "where system_name = @value1",
+               databaseManager.Connection);
+            pgSqlCommand.Parameters.Add("@value1", SystemName);
+            pgSqlDataReader = pgSqlCommand.ExecuteReader();
+            pgSqlDataReader.Read();
+            if (pgSqlDataReader.HasRows)
+            {
+                metadataId = pgSqlDataReader.GetInt32(0);
+            }
+            result = GetTariffValue(metadataId);
+            return result;
+        }
+
+
+        private float GetTariffValue(int metadataId)
+        {
+            float result = 0;
+            PgSqlCommand pgSqlCommand;
+            PgSqlDataReader pgSqlDataReader;
+            pgSqlCommand = new PgSqlCommand("select * from types_tariffs" +
+                " where metadata_id = @value1",
+                databaseManager.Connection);
+            pgSqlCommand.Parameters.Add("@value1", metadataId);
+            pgSqlDataReader = pgSqlCommand.ExecuteReader();
+            pgSqlDataReader.Read();
+            if (pgSqlDataReader.HasRows)
+            {
+                result = pgSqlDataReader.GetFloat(0);
+            }
+
+
             return result;
         }
     }

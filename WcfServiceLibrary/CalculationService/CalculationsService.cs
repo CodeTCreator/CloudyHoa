@@ -8,6 +8,8 @@ using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
 using System.Xml.Linq;
+using UHoaAdmin.Classes;
+using UniversalHoa_WF.Classes;
 
 namespace WcfServiceLibrary
 {
@@ -39,20 +41,23 @@ namespace WcfServiceLibrary
             return dataSet;
         }
 
-        public DataSet GetTemplate(int propId,DateTime period)
+        public DataSet GetTemplate(int propId)
         {
             DataSet dataSet = new DataSet();
             using (PgSqlConnection conn = new PgSqlConnection(connectionString))
             {
                 conn.Open();
-                PgSqlCommand pgSqlCommand = new PgSqlCommand("select dynamic_params.*, personal_account.account, types_objects.name" +
-                    " from dynamic_params " +
-                    "left join personal_account on personal_account_id = personal_account.id " +
-                    "join objects on objects.id = dynamic_params.object_id " +
-                    "join types_objects on objects.type_object = types_objects.id " +
-                    "where period = @period and property_id = @propId  ", conn);
+                PgSqlCommand pgSqlCommand = new PgSqlCommand("select types_tariffs.id as tariff_id, types_tariffs.name as tariff_name," +
+                    "types_tariffs.value as tariff_value, types_tariffs.metadata_id as metadata_id, " +
+                    "personal_account.id as personal_account_id, " +
+                    "personal_account.account," +
+                    " personal_account.object_id as object_id, types_objects.name || ' ' || objects.identificator AS object_name  " +
+                    "from types_tariffs " +
+                    " cross join personal_account " +
+                    " join objects on objects.id = object_id " +
+                    " join types_objects on types_objects.id = objects.type_object " +
+                    " where metadata_id = @propId  ", conn);
                 pgSqlCommand.Parameters.Add("@propId", propId);
-                pgSqlCommand.Parameters.Add("@period", period);
                 PgSqlDataAdapter pgSqlDataAdapter = new PgSqlDataAdapter(pgSqlCommand);
                 pgSqlDataAdapter.Fill(dataSet);
                 conn.Close();
@@ -105,6 +110,16 @@ namespace WcfServiceLibrary
                 pgSqlCommand.ExecuteNonQuery();
                 conn.Close();
             }
+        }
+
+        public double CalculateResultValue(int propId,int objectId, int paId, DateTime period)
+        {
+            double result = 0;
+            DatabaseManager databaseManager = new DatabaseManager(new PgSqlConnection(connectionString));
+            databaseManager.ConnectToDatabase();
+            result = CalculateProperty.Calculate(propId, objectId, paId, period, databaseManager);
+            databaseManager.DisconnectToDatabase();
+            return result;
         }
     }
 }

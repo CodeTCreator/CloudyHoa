@@ -1,14 +1,9 @@
 ﻿using Devart.Data.PostgreSql;
-using DevExpress.CodeParser;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlTypes;
-using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using UHoaAdmin.ParametrWindows;
 using UniversalHoa_WF.Classes;
 
@@ -26,7 +21,7 @@ namespace UHoaAdmin.Classes
         /// <param name="object_id"></param>
         /// <param name="databaseManager"></param>
         /// <returns></returns>
-        public static double Calculate(int property_id,int object_id, DateTime period, DatabaseManager databaseManager)
+        public static double Calculate(int property_id,int object_id, int paId, DateTime period, DatabaseManager databaseManager)
         {
             double result = 0;
 
@@ -76,11 +71,20 @@ namespace UHoaAdmin.Classes
                                 if(intermediate == methods[j].Name)
                                 {
                                     string val = formula.Substring(i+1, formula.Substring(i+2).IndexOf(')') + 1);
-                                    object[] ob = new object[2];
+                                    object[] ob = new object[3];
                                     ob[0] = val;
                                     ob[1] = object_id;
+                                    ob[2] = paId;
                                     MethodInfo m = dBRequest.GetType().GetMethod(intermediate);
-                                    value =  (float)m.Invoke(dBRequest, ob);
+                                    if(m.GetParameters().Length == 1)
+                                    {
+                                        value = (float)m.Invoke(dBRequest, new object[1] { ob[0] });
+
+                                    }
+                                    else
+                                    {
+                                        value = (float)m.Invoke(dBRequest, ob);
+                                    }
                                     i += 2 + formula.Substring(i + 2).IndexOf(')');
                                     break;
                                 }
@@ -152,7 +156,7 @@ namespace UHoaAdmin.Classes
                 }
             }
             // Вычисление математического значения, которое записано в строке
-            result = Convert.ToDouble (new DataTable().Compute(resultExpression, ""));
+            result = Convert.ToDouble (resultExpression != " " ?new DataTable().Compute(resultExpression, "") : 0);
 
             return result;
         }
