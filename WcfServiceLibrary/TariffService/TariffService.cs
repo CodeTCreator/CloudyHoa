@@ -98,5 +98,21 @@ namespace WcfServiceLibrary.TariffService
             }
             return dataSet;
         }
+
+        public DataSet GetTariffsFromMetadata(int metadataId)
+        {
+            DataSet dataSet = new DataSet();
+            using (PgSqlConnection conn = new PgSqlConnection(connectionString))
+            {
+                conn.Open();
+                PgSqlCommand pgSqlCommand = new PgSqlCommand(" select * from types_tariffs" +
+                    " where metadata_id = @propId", conn);
+                pgSqlCommand.Parameters.Add("@propId", metadataId);
+                PgSqlDataAdapter pgSqlDataAdapter = new PgSqlDataAdapter(pgSqlCommand);
+                pgSqlDataAdapter.Fill(dataSet);
+                conn.Close();
+            }
+            return dataSet;
+        }
     }
 }

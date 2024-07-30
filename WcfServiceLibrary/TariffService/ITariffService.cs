@@ -26,5 +26,8 @@ namespace WcfServiceLibrary.TariffService
 
         [OperationContract]
         DataSet GetServices(int hoaId, int type_object);
+
+        [OperationContract]
+        DataSet GetTariffsFromMetadata(int metadataId);
     }
 }
