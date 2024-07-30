@@ -42,5 +42,8 @@ namespace WcfServiceLibrary.MetadataService
 
         [OperationContract]
         DataSet GetServices(int typeObject);
+
+        [OperationContract]
+        DataSet GetCalculationServices(int typeObject);
     }
 }
