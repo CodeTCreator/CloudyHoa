@@ -153,6 +153,8 @@
     <Compile Include="CalculationClasses\DBRequest.cs" />
     <Compile Include="CalculationService\CalculationsService.cs" />
     <Compile Include="CalculationService\ICalculationsService.cs" />
+    <Compile Include="CHService\CHService.cs" />
+    <Compile Include="CHService\ICHService.cs" />
     <Compile Include="DPService\DynamicParamsService.cs" />
     <Compile Include="DPService\IDynamicParamsService.cs" />
     <Compile Include="ExpensesService\ExpensesService.cs" />
