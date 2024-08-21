@@ -157,6 +157,8 @@
     <Compile Include="CHService\ICHService.cs" />
     <Compile Include="DPService\DynamicParamsService.cs" />
     <Compile Include="DPService\IDynamicParamsService.cs" />
+    <Compile Include="EHService\EHService.cs" />
+    <Compile Include="EHService\IEHService.cs" />
     <Compile Include="ExpensesService\ExpensesService.cs" />
     <Compile Include="ExpensesService\IExpensesService.cs" />
     <Compile Include="MDService\IMDService.cs" />
