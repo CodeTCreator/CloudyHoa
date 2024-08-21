@@ -40,24 +40,48 @@ namespace WcfServiceLibrary
             }
             return dataSet;
         }
-
-        public DataSet GetTemplate(int propId)
+        public DataSet GetCalculationsFromMetadata(int metadata_id, DateTime period)
         {
             DataSet dataSet = new DataSet();
             using (PgSqlConnection conn = new PgSqlConnection(connectionString))
             {
                 conn.Open();
-                PgSqlCommand pgSqlCommand = new PgSqlCommand("select types_tariffs.id as tariff_id, types_tariffs.name as tariff_name," +
+                PgSqlCommand pgSqlCommand = new PgSqlCommand(" select \"calculations\".*, " +
+                    " \"metadata\".\"property_name\" " +
+                    "from (\"calculations\" \"calculations\"\r\n  inner join \"metadata\" \"metadata\" " +
+                    "   on (\"metadata\".\"id\" = \"calculations\".\"metadata_id\")) " +
+                    "where metadata_id = @metadata_id and  " +
+                    "EXTRACT(MONTH FROM period) = EXTRACT(MONTH FROM @period::DATE)  " +
+                    "AND EXTRACT(YEAR FROM period) = EXTRACT(YEAR FROM @period::DATE)", conn);
+                pgSqlCommand.Parameters.Add("@metadata_id", metadata_id);
+                pgSqlCommand.Parameters.Add("@period", period);
+                PgSqlDataAdapter pgSqlDataAdapter = new PgSqlDataAdapter(pgSqlCommand);
+                pgSqlDataAdapter.Fill(dataSet);
+                conn.Close();
+            }
+            return dataSet;
+        }
+
+
+
+        public DataSet GetTemplate(int propId, int typeObject)
+        {
+            DataSet dataSet = new DataSet();
+            using (PgSqlConnection conn = new PgSqlConnection(connectionString))
+            {
+                conn.Open();
+                PgSqlCommand pgSqlCommand = new PgSqlCommand("select types_tariffs.id as tariff_id, types_tariffs.name as tariff_name, " +
                     "types_tariffs.value as tariff_value, types_tariffs.metadata_id as metadata_id, " +
                     "personal_account.id as personal_account_id, " +
-                    "personal_account.account," +
-                    " personal_account.object_id as object_id, types_objects.name || ' ' || objects.identificator AS object_name  " +
-                    "from types_tariffs " +
-                    " cross join personal_account " +
-                    " join objects on objects.id = object_id " +
-                    " join types_objects on types_objects.id = objects.type_object " +
-                    " where metadata_id = @propId  ", conn);
+                    "personal_account.account, " +
+                    "personal_account.object_id as object_id, types_objects.name || ' ' || objects.identificator AS object_name  " +
+                    "from personal_account " +
+                    "left join objects on objects.id = object_id  " +
+                    "left join types_objects  on types_objects.id = objects.type_object " +
+                    "left join types_tariffs on types_tariffs.metadata_id = @propId " +
+                    "where types_objects.id = @typeObject", conn);
                 pgSqlCommand.Parameters.Add("@propId", propId);
+                pgSqlCommand.Parameters.Add("@typeObject", typeObject);
                 PgSqlDataAdapter pgSqlDataAdapter = new PgSqlDataAdapter(pgSqlCommand);
                 pgSqlDataAdapter.Fill(dataSet);
                 conn.Close();

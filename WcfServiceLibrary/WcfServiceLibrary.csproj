@@ -144,13 +144,21 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApartmentResidents\ApartmentResidents.cs" />
+    <Compile Include="ApartmentResidents\IApartmentResidents.cs" />
+    <Compile Include="BenefitService\BenefitService.cs" />
+    <Compile Include="BenefitService\IBenefitService.cs" />
     <Compile Include="CalculationClasses\CalculateProperty.cs" />
     <Compile Include="CalculationClasses\DatabaseManager.cs" />
     <Compile Include="CalculationClasses\DBRequest.cs" />
     <Compile Include="CalculationService\CalculationsService.cs" />
     <Compile Include="CalculationService\ICalculationsService.cs" />
+    <Compile Include="CHService\CHService.cs" />
+    <Compile Include="CHService\ICHService.cs" />
     <Compile Include="DPService\DynamicParamsService.cs" />
     <Compile Include="DPService\IDynamicParamsService.cs" />
+    <Compile Include="EHService\EHService.cs" />
+    <Compile Include="EHService\IEHService.cs" />
     <Compile Include="ExpensesService\ExpensesService.cs" />
     <Compile Include="ExpensesService\IExpensesService.cs" />
     <Compile Include="MDService\IMDService.cs" />
