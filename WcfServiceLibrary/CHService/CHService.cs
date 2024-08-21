@@ -19,7 +19,7 @@ namespace WcfServiceLibrary.CHService
 
         readonly string connectionString = configurationDB["AppSettings:DatabaseConnection"];
 
-        public DataSet GetCalculationGistoryFromObject(int objectId, DateTime period)
+        public DataSet GetCalculationHistoryFromObject(int objectId, DateTime period)
         {
             DataSet dataSet = new DataSet();
             using (PgSqlConnection conn = new PgSqlConnection(connectionString))
@@ -53,7 +53,7 @@ namespace WcfServiceLibrary.CHService
             return dataSet;
         }
 
-        public DataSet GetCalculationGistoryFromPA(int paId, DateTime period)
+        public DataSet GetCalculationHistoryFromPA(int paId, DateTime period)
         {
             DataSet dataSet = new DataSet();
             using (PgSqlConnection conn = new PgSqlConnection(connectionString))

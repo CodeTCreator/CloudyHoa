@@ -13,9 +13,9 @@ namespace WcfServiceLibrary.CHService
     public interface ICHService
     {
         [OperationContract]
-        DataSet GetCalculationGistoryFromObject(int objectId, DateTime period);
+        DataSet GetCalculationHistoryFromObject(int objectId, DateTime period);
 
         [OperationContract]
-        DataSet GetCalculationGistoryFromPA(int paId, DateTime period);
+        DataSet GetCalculationHistoryFromPA(int paId, DateTime period);
     }
 }
