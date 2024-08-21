@@ -66,7 +66,7 @@ namespace WcfServiceLibrary.CHService
                         "join personal_account on personal_account.id = pa_id " +
                         "join metadata on metadata_id = metadata.id " +
                         "join objects on objects.id = personal_account.object_id " +
-                        "where period = @period and object_id = @objectId", conn);
+                        "where period = @period and pa_id = @paId", conn);
                     pgSqlCommand.Parameters.Add("@paId", paId);
                     pgSqlCommand.Parameters.Add("@period", period);
                     pgSqlDataAdapter = new PgSqlDataAdapter(pgSqlCommand);
