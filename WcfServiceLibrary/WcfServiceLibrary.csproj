@@ -151,6 +151,10 @@
     <Compile Include="CalculationService\ICalculationsService.cs" />
     <Compile Include="DPService\DynamicParamsService.cs" />
     <Compile Include="DPService\IDynamicParamsService.cs" />
+    <Compile Include="ExpensesService\ExpensesService.cs" />
+    <Compile Include="ExpensesService\IExpensesService.cs" />
+    <Compile Include="MDService\IMDService.cs" />
+    <Compile Include="MDService\MDService.cs" />
     <Compile Include="MetadataService\IMetadataService.cs" />
     <Compile Include="MetadataService\MetadataService.cs" />
     <Compile Include="ObjectsService\IObjectsService.cs" />
