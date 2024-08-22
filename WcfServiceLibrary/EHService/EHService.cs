@@ -31,7 +31,9 @@ namespace WcfServiceLibrary.EHService
                         "join personal_account on personal_account.id = personal_account_id " +
                         "join metadata on property_id = metadata.id " +
                         "join objects on objects.id = personal_account.object_id " +
-                        "where period = @period and dynamic_params.object_id = @objectId", conn);
+                        "where dynamic_params.object_id = @objectId and " +
+                        "EXTRACT(MONTH FROM period) = EXTRACT(MONTH FROM @period::DATE) " +
+                        "AND EXTRACT(YEAR FROM period) = EXTRACT(YEAR FROM @period::DATE)", conn);
                     pgSqlCommand.Parameters.Add("@objectId", objectId);
                     pgSqlCommand.Parameters.Add("@period", period);
                     pgSqlDataAdapter = new PgSqlDataAdapter(pgSqlCommand);
@@ -67,7 +69,9 @@ namespace WcfServiceLibrary.EHService
                         "join personal_account on personal_account.id = personal_account_id " +
                         "join metadata on property_id = metadata.id " +
                         "join objects on objects.id = personal_account.object_id " +
-                        "where period = @period and personal_account_id = @paId", conn);
+                        "where personal_account_id = @paId and " +
+                        "EXTRACT(MONTH FROM period) = EXTRACT(MONTH FROM @period::DATE) " +
+                        "AND EXTRACT(YEAR FROM period) = EXTRACT(YEAR FROM @period::DATE)", conn);
                     pgSqlCommand.Parameters.Add("@paId", paId);
                     pgSqlCommand.Parameters.Add("@period", period);
                     pgSqlDataAdapter = new PgSqlDataAdapter(pgSqlCommand);
