@@ -26,9 +26,10 @@ namespace WcfServiceLibrary.CHService
             {
                 conn.Open();
                 PgSqlDataAdapter pgSqlDataAdapter;
-                if (period != null)
+                if (period != DateTime.MinValue)
                 {
-                    PgSqlCommand pgSqlCommand = new PgSqlCommand(" select calculations.*, metadata.property_name from calculations " +
+                    PgSqlCommand pgSqlCommand = new PgSqlCommand(" select calculations.*, metadata.property_name, " +
+                        "personal_account.account from calculations " +
                         "join personal_account on personal_account.id = pa_id " +
                         "join metadata on metadata_id = metadata.id " +
                         "join objects on objects.id = personal_account.object_id " +
@@ -41,7 +42,8 @@ namespace WcfServiceLibrary.CHService
                 }
                 else
                 {
-                    PgSqlCommand pgSqlCommand = new PgSqlCommand(" select calculations.*, metadata.property_name from calculations " +
+                    PgSqlCommand pgSqlCommand = new PgSqlCommand(" select calculations.*, metadata.property_name, " +
+                        "personal_account.account from calculations " +
                         "join personal_account on personal_account.id = pa_id " +
                         "join metadata on metadata_id = metadata.id " +
                         "join objects on objects.id = personal_account.object_id " +
@@ -62,9 +64,10 @@ namespace WcfServiceLibrary.CHService
             {
                 conn.Open();
                 PgSqlDataAdapter pgSqlDataAdapter;
-                if (period != null)
+                if (period != DateTime.MinValue)
                 {
-                    PgSqlCommand pgSqlCommand = new PgSqlCommand(" select calculations.*, metadata.property_name from calculations " +
+                    PgSqlCommand pgSqlCommand = new PgSqlCommand(" select calculations.*, metadata.property_name," +
+                        "personal_account.account from calculations " +
                         "join personal_account on personal_account.id = pa_id " +
                         "join metadata on metadata_id = metadata.id " +
                         "join objects on objects.id = personal_account.object_id " +
@@ -77,7 +80,8 @@ namespace WcfServiceLibrary.CHService
                 }
                 else
                 {
-                    PgSqlCommand pgSqlCommand = new PgSqlCommand(" select calculations.*, metadata.property_name from calculations " +
+                    PgSqlCommand pgSqlCommand = new PgSqlCommand(" select calculations.*, metadata.property_name, " +
+                        "personal_account.account from calculations " +
                         "join personal_account on personal_account.id = pa_id " +
                         "join metadata on metadata_id = metadata.id " +
                         "join objects on objects.id = personal_account.object_id " +

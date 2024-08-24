@@ -27,7 +27,8 @@ namespace WcfServiceLibrary.EHService
                 if (period != null)
                 {
                     PgSqlCommand pgSqlCommand = new PgSqlCommand(
-                        "select dynamic_params.*, metadata.property_name from dynamic_params " +
+                        "select dynamic_params.*, metadata.property_name," +
+                        "personal_account.account from dynamic_params " +
                         "join personal_account on personal_account.id = personal_account_id " +
                         "join metadata on property_id = metadata.id " +
                         "join objects on objects.id = personal_account.object_id " +
@@ -41,7 +42,8 @@ namespace WcfServiceLibrary.EHService
                 else
                 {
                     PgSqlCommand pgSqlCommand = new PgSqlCommand(
-                        "select dynamic_params.*, metadata.property_name from dynamic_params " +
+                        "select dynamic_params.*, metadata.property_name, personal_account.account" +
+                        " from dynamic_params " +
                         "join personal_account on personal_account.id = personal_account_id " +
                         "join metadata on property_id = metadata.id " +
                         "join objects on objects.id = personal_account.object_id " +
@@ -65,7 +67,8 @@ namespace WcfServiceLibrary.EHService
                 if (period != null)
                 {
                     PgSqlCommand pgSqlCommand = new PgSqlCommand(
-                        "select dynamic_params.*, metadata.property_name from dynamic_params " +
+                        "select dynamic_params.*, metadata.property_name, personal_account.account" +
+                        " from dynamic_params " +
                         "join personal_account on personal_account.id = personal_account_id " +
                         "join metadata on property_id = metadata.id " +
                         "join objects on objects.id = personal_account.object_id " +
@@ -79,7 +82,8 @@ namespace WcfServiceLibrary.EHService
                 else
                 {
                     PgSqlCommand pgSqlCommand = new PgSqlCommand(
-                        "select dynamic_params.*, metadata.property_name from dynamic_params " +
+                        "select dynamic_params.*, metadata.property_name, personal_account.account" +
+                        " from dynamic_params " +
                         "join personal_account on personal_account.id = personal_account_id " +
                         "join metadata on property_id = metadata.id " +
                         "join objects on objects.id = personal_account.object_id " +
